@@ -32,7 +32,7 @@
         {{-- Featured Category Article --}}
         <div class="mb-10">
             <a href="{{ route('article.show', $first->id) }}" class="group block relative rounded-4xl overflow-hidden h-100 sm:h-125 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-200/50 dark:border-slate-800">
-                <img src="{{ $first->image }}" alt="{{ $first->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <img src="{{ $first->image_url }}" alt="{{ $first->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-900/50 to-transparent"></div>
                 <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-12">
                     @if($first->featured)
@@ -58,7 +58,7 @@
             @foreach($rest as $article)
             <a href="{{ route('article.show', $article->id) }}" class="group bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
                 <div class="relative rounded-2xl overflow-hidden h-52 mb-4 shrink-0">
-                    <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 </div>
                 <div class="px-2 pb-2 flex-1 flex flex-col">
                     <h3 class="text-slate-900 dark:text-white font-bold text-lg leading-snug group-hover:text-orange-500 transition-colors line-clamp-3 mb-4">

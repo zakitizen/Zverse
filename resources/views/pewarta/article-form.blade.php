@@ -94,31 +94,31 @@
             
             {{-- Toolbar --}}
             <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap items-center gap-1">
-                <button type="button" onclick="wrapSelection('**', '**', 'Teks Bold')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Bold">
+                <button type="button" onclick="event.preventDefault(); wrapSelection('**', '**', 'Teks Bold'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Bold">
                     <i data-lucide="bold" class="w-4 h-4"></i>
                 </button>
-                <button type="button" onclick="wrapSelection('*', '*', 'Teks Italic')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Italic">
+                <button type="button" onclick="event.preventDefault(); wrapSelection('*', '*', 'Teks Italic'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Italic">
                     <i data-lucide="italic" class="w-4 h-4"></i>
                 </button>
                 <div class="w-px h-5 bg-slate-300 mx-1"></div>
-                <button type="button" onclick="insertFmt('## Heading 2')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Heading 2">
+                <button type="button" onclick="event.preventDefault(); insertFmt('## Heading 2'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Heading 2">
                     <i data-lucide="heading-2" class="w-4 h-4"></i>
                 </button>
-                <button type="button" onclick="insertFmt('### Heading 3')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Heading 3">
+                <button type="button" onclick="event.preventDefault(); insertFmt('### Heading 3'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Heading 3">
                     <i data-lucide="heading-3" class="w-4 h-4"></i>
                 </button>
                 <div class="w-px h-5 bg-slate-300 mx-1"></div>
-                <button type="button" onclick="insertFmt('- List Item')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Bullet List">
+                <button type="button" onclick="event.preventDefault(); insertFmt('- List Item'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Bullet List">
                     <i data-lucide="list" class="w-4 h-4"></i>
                 </button>
-                <button type="button" onclick="insertFmt('1. Numbered Item')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Numbered List">
+                <button type="button" onclick="event.preventDefault(); insertFmt('1. Numbered Item'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Numbered List">
                     <i data-lucide="list-ordered" class="w-4 h-4"></i>
                 </button>
                 <div class="w-px h-5 bg-slate-300 mx-1"></div>
-                <button type="button" onclick="insertFmt('[Teks Link](https://)')" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Insert Link">
+                <button type="button" onclick="event.preventDefault(); insertFmt('[Teks Link](https://)'); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Insert Link">
                     <i data-lucide="link" class="w-4 h-4"></i>
                 </button>
-                <button type="button" onclick="document.getElementById('editor-image-upload').click()" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Upload Gambar">
+                <button type="button" onclick="event.preventDefault(); document.getElementById('editor-image-upload').click(); return false;" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-white hover:text-sky-600 hover:shadow-sm transition-all" title="Upload Gambar">
                     <i data-lucide="image" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -221,7 +221,19 @@
     const uploadUrl = "{{ $imageUploadRoute }}";
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || document.querySelector('input[name="_token"]')?.value;
 
+    // Pastikan textarea selalu bisa di-focus
+    function ensureTextareaFocus() {
+        if (!ta) {
+            console.error('❌ Textarea content tidak ditemukan!');
+            return false;
+        }
+        ta.focus();
+        return true;
+    }
+
     function wrapSelection(prefix, suffix, placeholder) {
+        if (!ensureTextareaFocus()) return;
+
         const s = ta.selectionStart;
         const e = ta.selectionEnd;
         const selected = ta.value.substring(s, e);
@@ -233,21 +245,44 @@
         const start = s + prefix.length;
         const end = start + text.length;
         ta.setSelectionRange(start, end);
+        
+        console.log('✅ Wrapped:', { prefix, suffix, text });
+    }
+
+    function insertFmt(markdown) {
+        if (!ensureTextareaFocus()) return;
+
+        const s = ta.selectionStart;
+        const e = ta.selectionEnd;
+        const newline = s > 0 && ta.value[s - 1] !== '\n' ? '\n' : '';
+        ta.value = ta.value.substring(0, s) + newline + markdown + '\n' + ta.value.substring(e);
+        ta.focus();
+        const newPos = s + newline.length + markdown.length + 1;
+        ta.setSelectionRange(newPos, newPos);
+        
+        console.log('✅ Inserted:', markdown);
     }
 
     function insertAtCursor(markdown) {
+        if (!ensureTextareaFocus()) return;
+
         const s = ta.selectionStart;
         const e = ta.selectionEnd;
         ta.value = ta.value.substring(0, s) + markdown + ta.value.substring(e);
         ta.focus();
         ta.setSelectionRange(s + markdown.length, s + markdown.length);
+        
+        console.log('✅ Inserted at cursor:', markdown);
     }
 
     imageInput.addEventListener('change', async function () {
         const file = this.files?.[0];
         if (!file) {
+            console.log('⚠️ No file selected');
             return;
         }
+
+        console.log('📤 Uploading file:', file.name, file.size, 'bytes');
 
         const formData = new FormData();
         formData.append('image', file);
@@ -260,18 +295,29 @@
             });
 
             const data = await response.json();
+            
             if (!response.ok) {
+                console.error('❌ Upload failed:', data);
                 throw new Error(data.message || 'Gagal mengunggah gambar.');
             }
 
+            console.log('✅ Upload success:', data.url);
+            
             const altText = file.name.replace(/\.[^.]+$/, '') || 'Foto';
-            insertAtCursor(`![${altText}](${data.url})`);
+            const markdown = `![${altText}](${data.url})`;
+            console.log('📝 Inserting markdown:', markdown);
+            
+            insertAtCursor(markdown);
+            ensureTextareaFocus();
         } catch (error) {
+            console.error('❌ Error:', error);
             alert(error.message || 'Gagal mengunggah gambar.');
         } finally {
             this.value = '';
         }
     });
+    
+    console.log('✅ Editor script loaded successfully');
 </script>
 </body>
 </html>

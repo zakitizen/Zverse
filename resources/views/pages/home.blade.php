@@ -18,7 +18,7 @@
                     };
                 @endphp
                 <div class="min-w-full relative h-112.5 sm:h-137.5">
-                    <img src="{{ $article->image }}" alt="{{ $article->title }}"
+                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
                          class="w-full h-full object-cover"
                          >
                     {{-- Gradient Overlay --}}
@@ -98,7 +98,7 @@
                     <div class="h-full">
                         <a href="{{ route('article.show', $main->id) }}" class="group block h-full bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 hover:shadow-2xl hover:shadow-orange-500/5 hover:-translate-y-1 transition-all duration-300">
                             <div class="relative rounded-2xl overflow-hidden h-60 sm:h-72 mb-4">
-                                <img src="{{ $main->image }}" alt="{{ $main->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <img src="{{ $main->image_url }}" alt="{{ $main->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                                 <div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-bold px-3 py-1.5 rounded-full text-slate-900 dark:text-white shadow-sm">{{ $main->read_time }}</div>
                             </div>
                             <div class="px-3 pb-3">
@@ -118,7 +118,7 @@
                         @foreach($rest as $art)
                         <a href="{{ route('article.show', $art->id) }}" class="group flex gap-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-xl hover:shadow-slate-200/20 dark:hover:shadow-none transition-all duration-300">
                             <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 relative">
-                                <img src="{{ $art->image }}" alt="{{ $art->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <img src="{{ $art->image_url }}" alt="{{ $art->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
                             <div class="flex flex-col justify-center min-w-0 py-1">
                                 <h4 class="text-slate-900 dark:text-white font-bold text-base leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2 mb-2">

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -15,7 +14,7 @@ class CategoryController extends Controller
         }
 
         $articles = Article::where('category', $category)->latest()->get();
-        $meta     = Article::$categoryMeta[$category];
+        $meta     = Article::$categoryMeta[$category] ?? [];
 
         return view('pages.category', compact('category', 'articles', 'meta'));
     }

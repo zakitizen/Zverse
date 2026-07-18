@@ -77,10 +77,24 @@ class RedaksiController extends Controller
 
     public function reject(Request $request, string $id)
     {
-        $request->validate(['reason' => 'required|string|max:500']);
+        $reason = trim((string) $request->input('reason', ''));
+        
+        if (empty($reason)) {
+            return back()->withErrors(['reason' => 'Alasan penolakan wajib diisi.']);
+        }
+        
+        if (strlen($reason) > 500) {
+            return back()->withErrors(['reason' => 'Alasan penolakan terlalu panjang (max 500 karakter).']);
+        }
+        
         $article = Article::findOrFail($id);
         $user    = $this->currentUser();
-        $article->reject($user->display_name, $request->reason);
+
+        if (!in_array($article->status, ['pending', 'approved', 'draft'])) {
+            return back()->with('error', 'Artikel ini tidak bisa ditolak pada status saat ini.');
+        }
+
+        $article->reject($user->display_name, $reason);
         return back()->with('success', 'Artikel ditolak.');
     }
 

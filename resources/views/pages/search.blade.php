@@ -26,7 +26,7 @@
             @foreach($results as $article)
             <a href="{{ route('article.show', $article->id) }}" class="group bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
                 <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 relative">
-                    <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 </div>
                 <div class="flex-1 py-2 pr-2">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-purple-500 mb-1 block">{{ $article->category }}</span>

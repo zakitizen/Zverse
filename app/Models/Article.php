@@ -75,6 +75,27 @@ class Article extends Model
         return self::$statusColor[$this->status] ?? '';
     }
 
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image)) {
+            return '';
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        if (str_starts_with($this->image, 'storage/')) {
+            return asset($this->image);
+        }
+
+        if (str_starts_with($this->image, '/storage/')) {
+            return asset(ltrim($this->image, '/'));
+        }
+
+        return $this->image;
+    }
+
     public function submitForReview(): bool
     {
         if (!in_array($this->status, ['draft', 'rejected'])) {

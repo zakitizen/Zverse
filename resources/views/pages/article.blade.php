@@ -12,7 +12,7 @@
     {{-- Cinematic Hero --}}
     <div class="relative w-full h-[50vh] min-h-100 max-h-150">
         @if($article->image)
-            <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-full object-cover" loading="lazy">
+            <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover" loading="lazy">
         @else
             <div class="w-full h-full bg-linear-to-br from-slate-900 via-slate-700 to-slate-500"></div>
         @endif

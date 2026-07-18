@@ -43,7 +43,7 @@ return new class extends Migration
                 $table->dropConstrainedForeignId('published_article_id');
             }
             if (Schema::hasColumn('articles', 'author_id')) {
-                $table->dropColumn('author_id');
+                $table->dropConstrainedForeignId('author_id');
             }
             if (Schema::hasColumn('articles', 'author_name')) {
                 $table->dropColumn('author_name');
@@ -62,9 +62,6 @@ return new class extends Migration
             }
             if (Schema::hasColumn('articles', 'review_note')) {
                 $table->dropColumn('review_note');
-            }
-            if (Schema::hasColumn('articles', 'published_article_id')) {
-                $table->dropColumn('published_article_id');
             }
         });
     }

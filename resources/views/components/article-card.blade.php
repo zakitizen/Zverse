@@ -6,7 +6,7 @@
 @if($isHero === 'hero')
 <a href="{{ route('article.show', $article->id) }}" class="group block">
     <div class="relative h-72 overflow-hidden rounded-[1.75rem] border border-white/10 shadow-2xl shadow-slate-900/20 sm:h-96">
-        <img src="{{ $article->image }}" alt="{{ $article->title }}"
+        <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
              class="h-full w-full object-cover transition-all duration-500 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
         <div class="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
@@ -34,7 +34,7 @@
 @else
 <a href="{{ route('article.show', $article->id) }}" class="group block overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
     <div class="relative h-48 overflow-hidden">
-        <img src="{{ $article->image }}" alt="{{ $article->title }}"
+        <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
              class="h-full w-full object-cover transition-all duration-500 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent"></div>
         <div class="absolute left-3 top-3">

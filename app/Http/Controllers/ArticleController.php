@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -12,11 +13,12 @@ class ArticleController extends Controller
     {
         // Support both numeric ID and slug
         $article = is_numeric($id)
-            ? Article::findOrFail($id)
-            : Article::where('slug', $id)->firstOrFail();
+            ? Article::where('id', $id)->where('status', 'published')->firstOrFail()
+            : Article::where('slug', $id)->where('status', 'published')->firstOrFail();
 
         $related = Article::where('category', $article->category)
             ->where('id', '!=', $article->id)
+            ->where('status', 'published')
             ->latest()
             ->take(3)
             ->get();
@@ -39,7 +41,7 @@ class ArticleController extends Controller
         $parentId = $request->input('parent_id');
 
         $article = Article::findOrFail($id);
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (!$user) {
             return back()->withErrors(['body' => 'Anda harus login terlebih dahulu untuk memberi komentar.']);
@@ -66,7 +68,7 @@ class ArticleController extends Controller
             'user_id'     => $user->id,
             'parent_id'   => $parentComment?->id,
             'author_name' => $user->display_name ?? 'Anonim',
-            'avatar_color'=> $user->avatar_color ?? 'from-orange-500 to-amber-400',
+            'avatar_color' => $user->avatar_color ?? 'from-orange-500 to-amber-400',
             'body'        => $body,
         ]);
 
