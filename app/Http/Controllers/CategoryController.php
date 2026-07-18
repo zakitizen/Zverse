@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Article;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+    public function show(string $category)
+    {
+        $valid = ['games', 'musik', 'film', 'entertainment'];
+        if (!in_array($category, $valid)) {
+            abort(404, 'Kategori tidak ditemukan');
+        }
+
+        $articles = Article::where('category', $category)->latest()->get();
+        $meta     = Article::$categoryMeta[$category];
+
+        return view('pages.category', compact('category', 'articles', 'meta'));
+    }
+}
