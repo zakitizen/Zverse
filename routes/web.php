@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PewartaController;
@@ -12,11 +13,16 @@ use Illuminate\Support\Facades\Route;
 // ─── Public Routes ─────────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
-Route::post('/article/{id}/like', [ArticleController::class, 'like'])->name('article.like');
-Route::post('/article/{id}/comment', [ArticleController::class, 'comment'])->name('article.comment');
 Route::get('/category/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-//Route::get('/shorts', [ShortsController::class, 'index'])->name('shorts');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/article/{article}/comments', [CommentController::class, 'store'])->name('article.comments.store');
+    Route::post('/article/{article}/comments/{comment}/reply', [CommentController::class, 'reply'])->name('article.comments.reply');
+    Route::patch('/article/{article}/comments/{comment}', [CommentController::class, 'update'])->name('article.comments.update');
+    Route::delete('/article/{article}/comments/{comment}', [CommentController::class, 'destroy'])->name('article.comments.destroy');
+    Route::get('/article/{article}/comments/{comment}/replies', [CommentController::class, 'loadReplies'])->name('article.comments.replies');
+});
 
 // ─── Auth Universal ─────────────────────────────────────────────────────────────
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
@@ -45,7 +51,7 @@ Route::prefix('pewarta')->name('pewarta.')->middleware('pewarta')->group(functio
 Route::prefix('redaksi')->name('redaksi.')->middleware('redaksi')->group(function () {
     Route::post('/logout', [RedaksiController::class, 'logout'])->name('logout');
     Route::get('/', [RedaksiController::class, 'dashboard'])->name('dashboard');
-    Route::post('/articles/upload-image', [PewartaController::class, 'uploadImage'])->name('articles.upload-image');
+    Route::post('/articles/upload-image', [RedaksiController::class, 'uploadImage'])->name('articles.upload-image');
     Route::get('/articles/{id}/edit', [RedaksiController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{id}', [RedaksiController::class, 'update'])->name('articles.update');
     Route::post('/articles/{id}/approve', [RedaksiController::class, 'approve'])->name('articles.approve');

@@ -11,9 +11,7 @@ class PewartaMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check() || Auth::user()->role !== 'pewarta') {
-            if (!session('pewarta_user_id')) {
-                return redirect()->route('login')->withErrors(['username' => 'Anda harus login sebagai Pewarta.']);
-            }
+            return redirect()->route('login')->withErrors(['username' => 'Anda harus login sebagai Pewarta.']);
         }
         return $next($request);
     }

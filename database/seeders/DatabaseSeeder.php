@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
-use App\Models\Short;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -226,78 +225,6 @@ class DatabaseSeeder extends Seeder
                 'slug'   => Article::generateSlug($data['title']),
                 'source' => 'seed',
             ]));
-        }
-
-        // ─── Seed Shorts ────────────────────────────────────────────────────
-        $shorts = [
-            [
-                'title'       => 'GTA VI Gameplay Leak: Open World yang Bikin Gasping 🔥',
-                'description' => 'Bocoran gameplay GTA VI akhirnya tersebar! Peta yang sangat luas dengan grafis next-gen. Rockstar Games beneran gila sih ini!',
-                'author'      => 'NEXUS Games',
-                'handle'      => '@nexusgames',
-                'category'    => 'games',
-                'video_url'   => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-                'thumbnail'   => 'https://images.unsplash.com/photo-1770067665792-9975acdec4fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-                'likes'       => 24800,
-                'comments'    => 1243,
-                'shares'      => 891,
-                'views'       => '1.2M',
-                'duration'    => '0:58',
-                'tags'        => ['GTA6', 'Rockstar', 'Gaming'],
-                'verified'    => true,
-            ],
-            [
-                'title'       => 'Coldplay Jakarta: Momen Terbaik yang Gak Akan Terlupakan 🎶',
-                'description' => 'Konser Coldplay di GBK kemarin luar biasa! Ribuan lampu LED wristband menciptakan lautan cahaya yang menakjubkan.',
-                'author'      => 'NEXUS Musik',
-                'handle'      => '@nexusmusik',
-                'category'    => 'musik',
-                'video_url'   => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                'thumbnail'   => 'https://images.unsplash.com/photo-1635961726947-0f821cf9ba28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-                'likes'       => 58200,
-                'comments'    => 3781,
-                'shares'      => 4200,
-                'views'       => '4.7M',
-                'duration'    => '1:12',
-                'tags'        => ['Coldplay', 'Konser', 'Jakarta'],
-                'verified'    => true,
-            ],
-            [
-                'title'       => 'Behind The Scenes: Cara Sutradara Bikin Adegan Laga Tanpa CGI 🎬',
-                'description' => 'Gak semua adegan laga di film Hollywood pakai CGI. Ini cara mereka bikin yang 100% nyata dan bikin jantung deg-degan saat syuting!',
-                'author'      => 'NEXUS Film',
-                'handle'      => '@nexusfilm',
-                'category'    => 'film',
-                'video_url'   => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-                'thumbnail'   => 'https://images.unsplash.com/photo-1768885512270-92224c501be6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-                'likes'       => 19700,
-                'comments'    => 876,
-                'shares'      => 1230,
-                'views'       => '987K',
-                'duration'    => '1:05',
-                'tags'        => ['FilmMaking', 'Hollywood', 'BehindTheScenes'],
-                'verified'    => false,
-            ],
-            [
-                'title'       => 'Cosplay Anime Terbaik di Comic Con Jakarta 2026 💥',
-                'description' => 'Comic Con Jakarta tahun ini beneran spektakuler! Cosplayer dari seluruh Indonesia unjuk kebolehan dengan kostum yang super detail dan kreatif.',
-                'author'      => 'NEXUS Entertainment',
-                'handle'      => '@nexusentertainment',
-                'category'    => 'entertainment',
-                'video_url'   => 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-                'thumbnail'   => 'https://images.unsplash.com/photo-1689785916276-12cf30c160dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-                'likes'       => 27600,
-                'comments'    => 1432,
-                'shares'      => 2890,
-                'views'       => '1.8M',
-                'duration'    => '1:18',
-                'tags'        => ['ComicCon', 'Cosplay', 'Anime', 'Jakarta'],
-                'verified'    => true,
-            ],
-        ];
-
-        foreach ($shorts as $data) {
-            Short::create($data);
         }
     }
 }

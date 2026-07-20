@@ -3,7 +3,7 @@
         <div class="grid gap-10 md:grid-cols-4">
             <div class="md:col-span-2">
                 <a href="{{ route('home') }}" class="mb-4 flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-orange-500 via-orange-500 to-purple-600 shadow-lg shadow-orange-500/20">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 via-orange-500 to-purple-600 shadow-lg shadow-orange-500/20">
                         <svg viewBox="0 0 24 24" class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M5 6h14"/>
                             <path d="M7 6l5 6-5 6"/>

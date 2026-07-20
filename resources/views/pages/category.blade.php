@@ -33,7 +33,7 @@
         <div class="mb-10">
             <a href="{{ route('article.show', $first->id) }}" class="group block relative rounded-4xl overflow-hidden h-100 sm:h-125 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-200/50 dark:border-slate-800">
                 <img src="{{ $first->image_url }}" alt="{{ $first->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-900/50 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent"></div>
                 <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-12">
                     @if($first->featured)
                     <span class="inline-flex w-fit items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-orange-500 text-white font-bold mb-4 shadow-lg shadow-orange-500/30">

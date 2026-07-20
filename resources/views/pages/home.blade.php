@@ -22,14 +22,14 @@
                          class="w-full h-full object-cover"
                          >
                     {{-- Gradient Overlay --}}
-                    <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
                     <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-14">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span class="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 font-bold uppercase tracking-wider">
                                 <i data-lucide="{{ $icon }}" class="w-3.5 h-3.5"></i> {{ $meta['label'] ?? $article->category }}
                             </span>
                             @if($article->featured)
-                            <span class="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-linear-to-r from-orange-500 to-orange-400 text-white font-bold shadow-lg shadow-orange-500/30">
+                            <span class="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-bold shadow-lg shadow-orange-500/30">
                                 <i data-lucide="flame" class="w-3.5 h-3.5"></i> Featured
                             </span>
                             @endif
@@ -72,7 +72,7 @@
             {{-- ─── Category Sections ────────────────────────────────────── --}}
             @foreach($categories as $cat)
             @php
-                $meta = \App\Models\Article::$categoryMeta[$cat];
+                $meta = \App\Models\Article::$categoryMeta[$cat] ?? [];
                 $items = $byCategory[$cat];
                 $main = $items->first();
                 $rest = $items->skip(1);

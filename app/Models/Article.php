@@ -10,7 +10,7 @@ class Article extends Model
     protected $fillable = [
         'slug', 'title', 'excerpt', 'content', 'category',
         'image', 'author', 'read_time', 'rating', 'featured',
-        'tags', 'source', 'likes', 'status', 'author_id', 'author_name',
+        'tags', 'source', 'status', 'author_id', 'author_name',
         'submitted_at', 'reviewed_at', 'reviewed_by', 'review_note',
         'published_article_id',
     ];
@@ -19,7 +19,6 @@ class Article extends Model
         'featured'     => 'boolean',
         'tags'         => 'array',
         'rating'       => 'float',
-        'likes'        => 'integer',
         'submitted_at' => 'datetime',
         'reviewed_at'  => 'datetime',
     ];
@@ -57,7 +56,7 @@ class Article extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->latest();
+        return $this->hasMany(Comment::class)->whereNull('parent_id')->latest();
     }
 
     public function author()

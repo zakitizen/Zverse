@@ -27,7 +27,7 @@
         @if($errors->any())
         <div class="bg-red-900/50 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-xl mb-5">{{ $errors->first() }}</div>
         @endif
-        <form action="{{ route('redaksi.login.post') }}" method="POST" class="space-y-4">
+        <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
             @csrf
             <div>
                 <label class="block text-gray-400 text-sm font-semibold mb-1.5">Username</label>

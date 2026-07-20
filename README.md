@@ -73,7 +73,6 @@ nexus-laravel/
 │   │   │   ├── ArticleController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── SearchController.php
-│   │   │   ├── ShortsController.php
 │   │   │   ├── AuthController.php       ← Reader login/register
 │   │   │   ├── AdminController.php      ← Admin panel
 │   │   │   ├── PewartaController.php    ← Reporter portal
@@ -85,7 +84,6 @@ nexus-laravel/
 │   └── Models/
 │       ├── Article.php
 │       ├── Comment.php
-│       ├── Short.php
 │       ├── User.php
 │       └── WorkflowArticle.php
 ├── database/
@@ -104,7 +102,6 @@ nexus-laravel/
 │   │   ├── article.blade.php
 │   │   ├── category.blade.php
 │   │   ├── search.blade.php
-│   │   └── shorts.blade.php
 │   ├── auth/login.blade.php
 │   ├── admin/
 │   │   ├── login.blade.php
@@ -131,7 +128,6 @@ nexus-laravel/
 - ✅ Komentar (login wajib)
 - ✅ Halaman kategori (Games, Musik, Film, Entertainment)
 - ✅ Search artikel
-- ✅ Shorts (video pendek) dengan modal player
 - ✅ Login / Register reader
 
 ### Admin

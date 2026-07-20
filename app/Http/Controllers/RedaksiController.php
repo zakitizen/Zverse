@@ -67,6 +67,31 @@ class RedaksiController extends Controller
         return redirect()->route('redaksi.dashboard')->with('success', 'Artikel berhasil diperbarui.');
     }
 
+    public function uploadImage(Request $request)
+    {
+        $this->currentUser();
+
+        if (!$request->hasFile('image') || !$request->file('image')->isValid()) {
+            return response()->json(['message' => 'File gambar tidak valid.'], 422);
+        }
+
+        $path = $request->file('image')->store('articles', 'public');
+        $publicPath = public_path('storage/' . $path);
+        $storedPath = storage_path('app/public/' . $path);
+
+        if (file_exists($storedPath) && !file_exists($publicPath)) {
+            $directory = dirname($publicPath);
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+            copy($storedPath, $publicPath);
+        }
+
+        return response()->json([
+            'url' => asset('storage/' . $path),
+        ]);
+    }
+
     public function approve(Request $request, string $id)
     {
         $article = Article::findOrFail($id);
@@ -130,7 +155,7 @@ class RedaksiController extends Controller
         if (Auth::check() && Auth::user()->role === 'redaksi') {
             return Auth::user();
         }
-        return User::findOrFail(session('redaksi_user_id'));
+        abort(403, 'Anda harus login sebagai Redaksi.');
     }
 
     private function storeUploadedImage(Request $request): string

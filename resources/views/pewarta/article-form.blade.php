@@ -43,6 +43,7 @@
     $imageUploadRoute = $user->role === 'redaksi'
         ? route('redaksi.articles.upload-image')
         : route('pewarta.articles.upload-image');
+    $dashboardRoute = $user->role === 'redaksi' ? route('redaksi.dashboard') : route('pewarta.dashboard');
 @endphp
 
 <form action="{{ $formAction }}"
@@ -53,7 +54,7 @@
     {{-- Topbar (Sticky Header) --}}
     <header class="sticky top-0 z-50 bg-white border-b border-slate-200 px-4 sm:px-6 h-16 flex items-center justify-between shadow-sm">
         <div class="flex items-center gap-4">
-            <a href="{{ route('pewarta.dashboard') }}" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors" title="Kembali ke Dashboard">
+            <a href="{{ $dashboardRoute }}" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors" title="Kembali ke Dashboard">
                 <i data-lucide="arrow-left" class="w-5 h-5"></i>
             </a>
             <div class="hidden sm:block border-l border-slate-200 h-6"></div>
@@ -64,7 +65,7 @@
         </div>
         
         <div class="flex items-center gap-3">
-            <a href="{{ route('pewarta.dashboard') }}" class="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+            <a href="{{ $dashboardRoute }}" class="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
                 Batal
             </a>
             <button type="submit" name="action" value="draft" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:-translate-y-0.5">
@@ -286,9 +287,10 @@
             // Italic: *text*
             processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
-            // Standalone URL as image
+            // Standalone URL as link
             if (/^https?:\/\//i.test(trimmed)) {
-                html += `<img src="${escapeHtml(trimmed)}" alt="Gambar artikel" class="rounded-2xl shadow-md my-6 w-full h-auto object-cover" loading="lazy" style="max-height:400px;">`;
+                const escapedUrl = escapeHtml(trimmed);
+                html += `<a href="${escapedUrl}" target="_blank" rel="noopener" class="text-sky-600 hover:text-sky-700 underline break-all">${escapedUrl}</a>`;
                 continue;
             }
 

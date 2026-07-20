@@ -37,30 +37,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('shorts', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->string('author');
-            $table->string('handle');
-            $table->enum('category', ['games', 'musik', 'film', 'entertainment']);
-            $table->string('video_url');
-            $table->string('thumbnail');
-            $table->integer('likes')->default(0);
-            $table->integer('comments')->default(0);
-            $table->integer('shares')->default(0);
-            $table->string('views')->default('0');
-            $table->string('duration')->default('1:00');
-            $table->json('tags')->nullable();
-            $table->boolean('verified')->default(false);
-            $table->timestamps();
-        });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('comments');
-        Schema::dropIfExists('shorts');
         Schema::dropIfExists('articles');
     }
 };

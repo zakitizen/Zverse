@@ -162,11 +162,10 @@ class PewartaController extends Controller
 
     private function currentUser(): User
     {
-        // Prioritas: Laravel Auth, fallback ke session lama
         if (Auth::check() && Auth::user()->role === 'pewarta') {
             return Auth::user();
         }
-        return User::findOrFail(session('pewarta_user_id'));
+        abort(403, 'Anda harus login sebagai Pewarta.');
     }
 
     private function storeUploadedImage(Request $request): string

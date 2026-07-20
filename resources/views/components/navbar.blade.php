@@ -108,7 +108,11 @@
                 @endif
             @endauth
             @foreach([['games','gamepad-2','Games'],['musik','music-4','Musik'],['film','film','Film'],['entertainment','sparkles','Entertainment']] as [$cat,$icon,$label])
-                
+                <a href="{{ route('category.show', $cat) }}"
+                   class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all {{ request()->is('category/'.$cat) ? 'bg-sky-50 text-sky-600 shadow-sm dark:bg-sky-500/10 dark:text-sky-400' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white' }}">
+                    <i data-lucide="{{ $icon }}" class="h-4 w-4"></i>
+                    <span>{{ $label }}</span>
+                </a>
             @endforeach
         </div>
     </div>
