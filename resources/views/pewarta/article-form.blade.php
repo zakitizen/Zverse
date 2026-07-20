@@ -123,18 +123,36 @@
                 </button>
             </div>
 
-            {{-- Editor Canvas --}}
-            <div class="flex-1 overflow-y-auto p-6 sm:p-10 flex flex-col">
-                {{-- Title Input (Large, Seamless) --}}
-                <input type="text" name="title" value="{{ old('title', $article?->title) }}" required
-                       class="editor-title w-full text-3xl sm:text-4xl font-black text-slate-900 bg-transparent border-0 border-b border-transparent hover:border-slate-100 focus:border-sky-500 pb-3 mb-6 transition-colors placeholder:text-slate-300"
-                       placeholder="Judul Artikel...">
-                
-                {{-- Textarea (Seamless Content) --}}
-                <input type="file" id="editor-image-upload" accept="image/*" class="hidden">
-                <textarea id="content" name="content" required
-                          class="flex-1 w-full resize-none text-base text-slate-700 bg-transparent border-0 focus:ring-0 placeholder:text-slate-400 leading-relaxed font-serif"
-                          placeholder="Mulai menulis konten artikelmu di sini...">{{ old('content', $article?->content) }}</textarea>
+                {{-- Editor Canvas --}}
+            <div class="flex-1 overflow-hidden flex flex-col">
+                {{-- Tab Toggle: Edit / Preview --}}
+                <div class="flex border-b border-slate-200 bg-slate-50/80 px-2">
+                    <button type="button" id="tab-edit" class="tab-btn active px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-sky-600 border-b-2 border-sky-500 transition-colors" onclick="switchTab('edit')">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5 inline-block mr-1.5"></i>Edit
+                    </button>
+                    <button type="button" id="tab-preview" class="tab-btn px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors" onclick="switchTab('preview')">
+                        <i data-lucide="eye" class="w-3.5 h-3.5 inline-block mr-1.5"></i>Preview
+                    </button>
+                </div>
+
+                {{-- Edit Panel --}}
+                <div id="panel-edit" class="flex-1 overflow-y-auto p-6 sm:p-10 flex flex-col">
+                    <input type="text" name="title" value="{{ old('title', $article?->title) }}" required
+                           class="editor-title w-full text-3xl sm:text-4xl font-black text-slate-900 bg-transparent border-0 border-b border-transparent hover:border-slate-100 focus:border-sky-500 pb-3 mb-6 transition-colors placeholder:text-slate-300"
+                           placeholder="Judul Artikel...">
+                    
+                    <input type="file" id="editor-image-upload" accept="image/*" class="hidden">
+                    <textarea id="content" name="content" required
+                              class="flex-1 w-full resize-none text-base text-slate-700 bg-transparent border-0 focus:ring-0 placeholder:text-slate-400 leading-relaxed font-serif"
+                              placeholder="Mulai menulis konten artikelmu di sini...">{{ old('content', $article?->content) }}</textarea>
+                </div>
+
+                {{-- Preview Panel --}}
+                <div id="panel-preview" class="flex-1 overflow-y-auto p-6 sm:p-10 hidden">
+                    <div id="preview-content" class="prose prose-lg max-w-none">
+                        <div class="text-slate-400 text-sm italic">Preview akan muncul di sini...</div>
+                    </div>
+                </div>
             </div>
             
             {{-- Excerpt Box --}}
@@ -220,6 +238,102 @@
     const imageInput = document.getElementById('editor-image-upload');
     const uploadUrl = "{{ $imageUploadRoute }}";
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || document.querySelector('input[name="_token"]')?.value;
+    const previewEl = document.getElementById('preview-content');
+    const panelEdit = document.getElementById('panel-edit');
+    const panelPreview = document.getElementById('panel-preview');
+
+    // ── Markdown to HTML Renderer ──
+    function renderMarkdown(text) {
+        const lines = text.split('\n');
+        let html = '';
+
+        for (let line of lines) {
+            const trimmed = line.trim();
+
+            if (trimmed === '') {
+                html += '<div class="h-4"></div>';
+                continue;
+            }
+
+            if (trimmed.startsWith('## ')) {
+                html += `<h2 class="flex items-center gap-3 text-2xl mt-10 mb-4 text-slate-900"><span class="w-2 h-8 bg-orange-500 rounded-full inline-block"></span>${escapeHtml(trimmed.slice(3))}</h2>`;
+                continue;
+            }
+
+            if (trimmed.startsWith('### ')) {
+                html += `<h3 class="text-xl mt-8 mb-3 text-slate-800">${escapeHtml(trimmed.slice(4))}</h3>`;
+                continue;
+            }
+
+            if (trimmed.startsWith('- ')) {
+                html += `<li class="ml-4 mb-2">${escapeHtml(trimmed.slice(2))}</li>`;
+                continue;
+            }
+
+            if (/^\d+\./.test(trimmed)) {
+                html += `<li class="ml-4 mb-2 list-decimal">${escapeHtml(trimmed.replace(/^\d+\.\s*/, ''))}</li>`;
+                continue;
+            }
+
+            let processed = escapeHtml(trimmed);
+
+            // Image: ![alt](url)
+            processed = processed.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="rounded-2xl shadow-md my-6 w-full h-auto object-cover" loading="lazy" style="max-height:400px;">');
+
+            // Bold: **text**
+            processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>');
+
+            // Italic: *text*
+            processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            // Standalone URL as image
+            if (/^https?:\/\//i.test(trimmed)) {
+                html += `<img src="${escapeHtml(trimmed)}" alt="Gambar artikel" class="rounded-2xl shadow-md my-6 w-full h-auto object-cover" loading="lazy" style="max-height:400px;">`;
+                continue;
+            }
+
+            html += `<p class="text-slate-600 leading-loose mb-4">${processed}</p>`;
+        }
+
+        return html;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // ── Update Preview ──
+    function updatePreview() {
+        previewEl.innerHTML = renderMarkdown(ta.value);
+    }
+
+    // ── Tab Switching ──
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('text-sky-600', 'border-sky-500');
+            btn.classList.add('text-slate-400', 'border-transparent');
+        });
+
+        if (tab === 'edit') {
+            document.getElementById('tab-edit').classList.add('text-sky-600', 'border-sky-500');
+            panelEdit.classList.remove('hidden');
+            panelPreview.classList.add('hidden');
+        } else {
+            document.getElementById('tab-preview').classList.add('text-sky-600', 'border-sky-500');
+            panelEdit.classList.add('hidden');
+            panelPreview.classList.remove('hidden');
+            updatePreview();
+        }
+    }
+
+    // ── Auto-preview on input ──
+    ta.addEventListener('input', function () {
+        if (!panelPreview.classList.contains('hidden')) {
+            updatePreview();
+        }
+    });
 
     // Pastikan textarea selalu bisa di-focus
     function ensureTextareaFocus() {
@@ -245,8 +359,10 @@
         const start = s + prefix.length;
         const end = start + text.length;
         ta.setSelectionRange(start, end);
-        
-        console.log('✅ Wrapped:', { prefix, suffix, text });
+
+        if (!panelPreview.classList.contains('hidden')) {
+            updatePreview();
+        }
     }
 
     function insertFmt(markdown) {
@@ -259,8 +375,10 @@
         ta.focus();
         const newPos = s + newline.length + markdown.length + 1;
         ta.setSelectionRange(newPos, newPos);
-        
-        console.log('✅ Inserted:', markdown);
+
+        if (!panelPreview.classList.contains('hidden')) {
+            updatePreview();
+        }
     }
 
     function insertAtCursor(markdown) {
@@ -271,8 +389,10 @@
         ta.value = ta.value.substring(0, s) + markdown + ta.value.substring(e);
         ta.focus();
         ta.setSelectionRange(s + markdown.length, s + markdown.length);
-        
-        console.log('✅ Inserted at cursor:', markdown);
+
+        if (!panelPreview.classList.contains('hidden')) {
+            updatePreview();
+        }
     }
 
     imageInput.addEventListener('change', async function () {
