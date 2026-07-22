@@ -29,14 +29,16 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        /* Scrollbar Styling for SaaS look */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .touch-safe { min-height: 44px; }
+        #sidebar { overscroll-behavior: contain; }
+        @media (max-width: 374px) { .xs\:inline { display: inline !important; } }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-600 flex overflow-hidden selection:bg-orange-500 selection:text-white">
@@ -47,12 +49,12 @@
     {{-- Sidebar --}}
     <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-72 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out shadow-2xl lg:shadow-none">
         <div class="p-6 border-b border-slate-800/60 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+            <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3 group">
                 @php $zvLogo = 'logozverse.png'; @endphp
-                <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="w-9 h-9 shrink-0 object-contain group-hover:scale-105 transition-transform duration-300" />
-                <div class="flex flex-col">
-                    <span class="text-white text-lg font-black tracking-tight">Zverse</span>
-                    <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Portal Redaksi</span>
+                <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
+                <div class="leading-none">
+                    <p class="text-lg font-black tracking-tight text-white">Zverse</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Media & Tech</p>
                 </div>
             </a>
             <button class="lg:hidden text-slate-400 hover:text-white transition-colors" onclick="toggleSidebar()">
@@ -122,8 +124,8 @@
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                 </button>
                 <div>
-                    <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">Dashboard Redaksi</h1>
-                    <p class="text-slate-500 text-sm font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
+                    <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">Dashboard Redaksi</h1>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
                 </div>
             </div>
             
@@ -206,50 +208,50 @@
                                     </div>
                                 </div>
                                 
-                                <div class="flex flex-col gap-2 shrink-0 w-full lg:w-44">
-                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="w-full flex items-center justify-center gap-2 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2.5 rounded-xl transition-all duration-300">
-                                        <i data-lucide="pencil" class="w-4 h-4"></i> Edit
+                                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-2 shrink-0 w-full lg:w-44">
+                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-2.5 rounded-xl transition-all duration-300">
+                                        <i data-lucide="pencil" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Edit
                                     </a>
-                                    <form action="{{ route('redaksi.articles.approve', $art->id) }}" method="POST">
+                                    <form action="{{ route('redaksi.articles.approve', $art->id) }}" method="POST" class="w-full">
                                         @csrf
                                         <input type="hidden" name="note" value="">
-                                        <button type="submit" class="w-full flex items-center justify-center gap-2 text-sm bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-emerald-500/25 hover:scale-[1.02]">
-                                            <i data-lucide="check" class="w-4 h-4"></i> Setujui
+                                        <button type="submit" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-emerald-500/25 hover:scale-[1.02]">
+                                            <i data-lucide="check" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Setujui
                                         </button>
                                     </form>
-                                    <form action="{{ route('redaksi.articles.publish', $art->id) }}" method="POST">
+                                    <form action="{{ route('redaksi.articles.publish', $art->id) }}" method="POST" class="w-full">
                                         @csrf
-                                        <button type="submit" onclick="return confirm('Terbitkan langsung tanpa review bertahap?')" class="w-full flex items-center justify-center gap-2 text-sm bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:scale-[1.02]">
-                                            <i data-lucide="rocket" class="w-4 h-4"></i> Terbitkan
+                                        <button type="submit" onclick="return confirm('Terbitkan langsung tanpa review bertahap?')" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:scale-[1.02]">
+                                            <i data-lucide="rocket" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Terbitkan
                                         </button>
                                     </form>
-                                    <button onclick="toggleReject('reject-{{ $art->id }}')" class="w-full flex items-center justify-center gap-2 text-sm bg-white hover:bg-rose-50 text-rose-600 font-semibold px-4 py-2.5 rounded-xl border border-rose-200 transition-all duration-300 hover:scale-[1.02]">
-                                        <i data-lucide="x" class="w-4 h-4"></i> Tolak
+                                    <button onclick="toggleReject('reject-{{ $art->id }}')" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-white hover:bg-rose-50 text-rose-600 font-semibold px-3 py-2.5 rounded-xl border border-rose-200 transition-all duration-300 hover:scale-[1.02]">
+                                        <i data-lucide="x" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Tolak
                                     </button>
                                 </div>
                             </div>
                             
                             {{-- Reject form inline --}}
                             <div id="reject-{{ $art->id }}" class="hidden mt-5 pt-5 border-t border-slate-100 animate-[slideDown_0.2s_ease-out]">
-                                <form action="{{ route('redaksi.articles.reject', $art->id) }}" method="POST" class="flex flex-col md:flex-row gap-3">
+                                <form action="{{ route('redaksi.articles.reject', $art->id) }}" method="POST" class="flex flex-col sm:flex-row gap-3">
                                     @csrf
                                     <div class="relative flex-1">
                                         <i data-lucide="file-text" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                                        <input type="text" name="reason" required placeholder="Tuliskan alasan penolakan..." class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
+                                        <input type="text" name="reason" required placeholder="Tuliskan alasan penolakan..." class="touch-safe w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
                                     </div>
-                                    <button type="submit" class="flex items-center justify-center gap-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-rose-500/25 shrink-0">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i> Konfirmasi Tolak
+                                    <button type="submit" class="touch-safe flex items-center justify-center gap-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-rose-500/25 shrink-0">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i> Konfirmasi
                                     </button>
                                 </form>
                             </div>
                         </div>
                         @empty
-                        <div class="bg-white rounded-2xl border border-slate-200 p-16 text-center shadow-sm flex flex-col items-center justify-center">
-                            <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="inbox" class="w-10 h-10 text-slate-400"></i>
+                        <div class="bg-white rounded-2xl border border-slate-200 p-8 md:p-16 text-center shadow-sm flex flex-col items-center justify-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="inbox" class="w-8 h-8 md:w-10 md:h-10 text-slate-400"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">Semua Bersih!</h3>
-                            <p class="text-slate-500 text-sm">Tidak ada artikel yang menunggu untuk direview saat ini.</p>
+                            <h3 class="text-base md:text-lg font-bold text-slate-900 mb-1">Semua Bersih!</h3>
+                            <p class="text-xs md:text-sm text-slate-500">Tidak ada artikel yang menunggu untuk direview saat ini.</p>
                         </div>
                         @endforelse
                     </div>
@@ -288,12 +290,12 @@
                             </div>
                         </div>
                         @empty
-                        <div class="bg-white rounded-2xl border border-slate-200 p-16 text-center shadow-sm flex flex-col items-center justify-center">
-                            <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="file-search" class="w-10 h-10 text-slate-400"></i>
+                        <div class="bg-white rounded-2xl border border-slate-200 p-8 md:p-16 text-center shadow-sm flex flex-col items-center justify-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="file-search" class="w-8 h-8 md:w-10 md:h-10 text-slate-400"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">Belum Ada Artikel Siap</h3>
-                            <p class="text-slate-500 text-sm">Review artikel di tab "Menunggu Review" untuk memindahkannya ke sini.</p>
+                            <h3 class="text-base md:text-lg font-bold text-slate-900 mb-1">Belum Ada Artikel Siap</h3>
+                            <p class="text-xs md:text-sm text-slate-500">Review artikel di tab "Menunggu Review" untuk memindahkannya ke sini.</p>
                         </div>
                         @endforelse
                     </div>
@@ -330,8 +332,8 @@
                                         <span>{{ $art->created_at->format('d M Y') }}</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-4 shrink-0">
-                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="flex items-center gap-1 text-xs text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-semibold transition-colors">
+                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 shrink-0">
+                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe flex items-center gap-1 text-xs text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-semibold transition-colors">
                                         <i data-lucide="pencil" class="w-3.5 h-3.5"></i> Edit
                                     </a>
                                     <span class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-bold shadow-sm {{ $badgeClass }}">
@@ -339,20 +341,20 @@
                                     </span>
                                     
                                     @if($art->status === 'published')
-                                    <div class="flex items-center gap-2 border-l border-slate-200 pl-4">
-                                        <a href="{{ route('article.show', $art->id) }}" target="_blank" class="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-semibold transition-colors">
+                                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto sm:border-l sm:border-slate-200 sm:pl-4">
+                                        <a href="{{ route('article.show', $art->id) }}" target="_blank" class="touch-safe flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-semibold transition-colors">
                                             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Lihat
                                         </a>
                                         <form action="{{ route('redaksi.articles.unpublish', $art->id) }}" method="POST">
                                             @csrf
-                                            <button onclick="return confirm('Tarik artikel ini dari tampilan publik?')" class="flex items-center gap-1 text-xs text-slate-500 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-transparent hover:border-rose-200">
-                                                <i data-lucide="undo-2" class="w-3.5 h-3.5"></i> Tarik Artikel
+                                            <button onclick="return confirm('Tarik artikel ini dari tampilan publik?')" class="touch-safe flex items-center gap-1 text-xs text-slate-500 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-transparent hover:border-rose-200">
+                                                <i data-lucide="undo-2" class="w-3.5 h-3.5"></i> Tarik
                                             </button>
                                         </form>
                                         <form action="{{ route('redaksi.articles.destroy', $art->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini secara permanen dari sistem?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-rose-200">
+                                            <button type="submit" class="touch-safe flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-rose-200">
                                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                                             </button>
                                         </form>
@@ -361,11 +363,11 @@
                                 </div>
                             </div>
                             @empty
-                            <div class="p-16 text-center flex flex-col items-center justify-center">
-                                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-3">
-                                    <i data-lucide="folder-open" class="w-8 h-8 text-slate-300"></i>
+                            <div class="p-8 md:p-16 text-center flex flex-col items-center justify-center">
+                                <div class="w-12 h-12 md:w-16 md:h-16 bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                                    <i data-lucide="folder-open" class="w-6 h-6 md:w-8 md:h-8 text-slate-300"></i>
                                 </div>
-                                <p class="text-slate-500 text-sm font-medium">Belum ada riwayat artikel.</p>
+                                <p class="text-xs md:text-sm text-slate-500 font-medium">Belum ada riwayat artikel.</p>
                             </div>
                             @endforelse
                         </div>

@@ -33,13 +33,15 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .touch-safe { min-height: 44px; }
+        #sidebar { overscroll-behavior: contain; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex text-slate-600 selection:bg-sky-500 selection:text-white overflow-hidden">
@@ -50,13 +52,13 @@
 {{-- Sidebar --}}
 <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-72 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out shadow-2xl lg:shadow-none">
     <div class="p-6 border-b border-slate-800/60 flex items-center justify-between">
-        <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+        <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3 group">
             {{-- Logo Zverse --}}
             @php $zvLogo = 'logozverse.png'; @endphp
-            <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="w-9 h-9 shrink-0 object-contain group-hover:scale-105 transition-transform duration-300" />
-            <div class="flex flex-col">
-                <span class="text-white text-lg font-black tracking-tight">Zverse</span>
-                <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Portal Pewarta</span>
+            <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
+            <div class="leading-none">
+                <p class="text-lg font-black tracking-tight text-white">Zverse</p>
+                <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Media & Tech</p>
             </div>
         </a>
         <button class="lg:hidden text-slate-400 hover:text-white transition-colors" onclick="toggleSidebar()">
@@ -108,8 +110,8 @@
                 <i data-lucide="menu" class="w-5 h-5"></i>
             </button>
             <div>
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">Dashboard Pewarta</h1>
-                <p class="text-slate-500 text-sm font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">Dashboard Pewarta</h1>
+                <p class="text-xs sm:text-sm text-slate-500 font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
             </div>
         </div>
         
@@ -149,15 +151,15 @@
                     'published' => 'text-sky-500 bg-sky-50'
                 ];
             @endphp
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-4 mb-8">
                 @foreach($statuses as $s)
                 @php $count = $articles->where('status',$s)->count(); @endphp
-                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 {{ $statusColors[$s] }} group-hover:scale-110 transition-transform">
-                        <i data-lucide="{{ $statusIcons[$s] }}" class="w-5 h-5"></i>
+                <div class="bg-white rounded-2xl border border-slate-200 p-3 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-2 sm:mb-3 {{ $statusColors[$s] }} group-hover:scale-110 transition-transform">
+                        <i data-lucide="{{ $statusIcons[$s] }}" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </div>
-                    <p class="text-3xl font-black text-slate-900 tracking-tight leading-none mb-1">{{ $count }}</p>
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">{{ \App\Models\Article::$statusLabel[$s] ?? $s }}</p>
+                    <p class="text-xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none mb-1">{{ $count }}</p>
+                    <p class="text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">{{ \App\Models\Article::$statusLabel[$s] ?? $s }}</p>
                 </div>
                 @endforeach
             </div>
@@ -218,9 +220,9 @@
                             </div>
                         </div>
                         
-                        <div class="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 mt-2 md:mt-0 border-slate-100">
+                        <div class="flex flex-wrap items-center gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 mt-2 md:mt-0 border-slate-100">
                             @if(in_array($article->status, ['draft','rejected']))
-                                <a href="{{ route('pewarta.articles.edit', $article->id) }}" class="flex items-center gap-1.5 text-xs bg-white hover:bg-sky-50 text-slate-600 hover:text-sky-600 border border-slate-200 hover:border-sky-200 px-3 py-2 rounded-xl transition-all shadow-sm font-bold">
+                                <a href="{{ route('pewarta.articles.edit', $article->id) }}" class="touch-safe flex items-center gap-1.5 text-xs bg-white hover:bg-sky-50 text-slate-600 hover:text-sky-600 border border-slate-200 hover:border-sky-200 px-3 py-2 rounded-xl transition-all shadow-sm font-bold">
                                     <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit
                                 </a>
                             @endif
@@ -228,7 +230,7 @@
                             @if($article->status === 'draft')
                                 <form action="{{ route('pewarta.articles.submit', $article->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" onclick="return confirm('Kirim artikel ini ke redaksi untuk direview?')" class="flex items-center gap-1.5 text-xs bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-xl transition-all shadow-sm shadow-sky-500/20 font-bold">
+                                    <button type="submit" onclick="return confirm('Kirim artikel ini ke redaksi untuk direview?')" class="touch-safe flex items-center gap-1.5 text-xs bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-xl transition-all shadow-sm shadow-sky-500/20 font-bold">
                                         <i data-lucide="send" class="w-3.5 h-3.5"></i> Submit
                                     </button>
                                 </form>
@@ -237,27 +239,27 @@
                             @if(in_array($article->status, ['draft','rejected']))
                                 <form action="{{ route('pewarta.articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini secara permanen?')">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="flex items-center gap-1.5 text-xs bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 hover:border-rose-200 px-3 py-2 rounded-xl transition-all shadow-sm font-bold">
+                                    <button type="submit" class="touch-safe flex items-center gap-1.5 text-xs bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 hover:border-rose-200 px-3 py-2 rounded-xl transition-all shadow-sm font-bold">
                                         <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                                     </button>
                                 </form>
                             @endif
                             
                             @if($article->status === 'published')
-                                <a href="{{ route('article.show', $article->slug) }}" target="_blank" class="flex items-center gap-1.5 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl font-bold hover:bg-emerald-100 transition-colors">
+                                <a href="{{ route('article.show', $article->slug) }}" target="_blank" class="touch-safe flex items-center gap-1.5 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl font-bold hover:bg-emerald-100 transition-colors">
                                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Lihat Web
                                 </a>
                             @endif
                         </div>
                     </div>
                     @empty
-                    <div class="px-6 py-20 text-center flex flex-col items-center justify-center">
-                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                            <i data-lucide="inbox" class="w-10 h-10 text-slate-300"></i>
+                    <div class="px-4 sm:px-6 py-10 md:py-20 text-center flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="inbox" class="w-8 h-8 md:w-10 md:h-10 text-slate-300"></i>
                         </div>
-                        <h3 class="text-slate-900 font-bold text-lg mb-1">Ruang Kerja Masih Kosong</h3>
-                        <p class="text-slate-500 text-sm mb-6">Mulai tulis artikel pertamamu dan publikasikan idemu.</p>
-                        <a href="{{ route('pewarta.articles.create') }}" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition-all shadow-sm shadow-sky-500/25">
+                        <h3 class="text-slate-900 font-bold text-base md:text-lg mb-1">Ruang Kerja Masih Kosong</h3>
+                        <p class="text-slate-500 text-xs md:text-sm mb-6">Mulai tulis artikel pertamamu dan publikasikan idemu.</p>
+                        <a href="{{ route('pewarta.articles.create') }}" class="touch-safe inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition-all shadow-sm shadow-sky-500/25">
                             <i data-lucide="pen-tool" class="w-4 h-4"></i> Tulis Artikel Baru
                         </a>
                     </div>
