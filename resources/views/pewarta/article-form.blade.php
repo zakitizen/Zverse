@@ -24,13 +24,12 @@
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        /* Editor Title Focus Removal */
+        .touch-safe { min-height: 44px; }
         .editor-title:focus { outline: none; box-shadow: none; }
     </style>
 </head>
@@ -52,34 +51,34 @@
     @if($article) @method('PUT') @endif
 
     {{-- Topbar (Sticky Header) --}}
-    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 px-4 sm:px-6 h-16 flex items-center justify-between shadow-sm">
-        <div class="flex items-center gap-4">
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 px-6 sm:px-10 h-16 md:h-[72px] flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-5">
             <a href="{{ $dashboardRoute }}" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors" title="Kembali ke Dashboard">
                 <i data-lucide="arrow-left" class="w-5 h-5"></i>
             </a>
             <div class="hidden sm:block border-l border-slate-200 h-6"></div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
                 <span class="text-xs font-bold uppercase tracking-widest text-sky-500">Zverse Editor</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-500">{{ $article ? 'EDIT MODE' : 'DRAFT' }}</span>
+                <span class="text-[10px] font-bold text-sky-500">{{ $article ? 'EDIT MODE' : 'DRAFT' }}</span>
             </div>
         </div>
         
-        <div class="flex items-center gap-3">
-            <a href="{{ $dashboardRoute }}" class="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+        <div class="flex items-center gap-2 md:gap-4">
+            <a href="{{ $dashboardRoute }}" class="hidden sm:block px-4 py-1.5 md:py-2 text-[11px] md:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
                 Batal
             </a>
-            <button type="submit" name="action" value="draft" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:-translate-y-0.5">
-                <i data-lucide="file-text" class="w-4 h-4"></i> {{ $article ? 'Simpan Perubahan' : 'Simpan ke Draft' }}
+            <button type="submit" name="action" value="draft" class="touch-safe flex items-center gap-1.5 md:gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] md:text-sm font-bold px-3 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all shadow-sm hover:-translate-y-0.5">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> <span class="hidden sm:inline">{{ $article ? 'Simpan' : 'Simpan' }}</span>
             </button>
-            <button type="submit" name="action" value="submit" class="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm shadow-sky-500/20 hover:-translate-y-0.5">
-                <i data-lucide="send" class="w-4 h-4"></i> {{ $user->role === 'redaksi' ? 'Setujui' : 'Kirim ke Redaksi' }}
+            <button type="submit" name="action" value="submit" class="touch-safe flex items-center gap-1.5 md:gap-2 bg-sky-500 hover:bg-sky-600 text-white text-[11px] md:text-sm font-bold px-3 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all shadow-sm shadow-sky-500/20 hover:-translate-y-0.5">
+                <i data-lucide="send" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> <span class="hidden sm:inline">{{ $user->role === 'redaksi' ? 'Setujui' : 'Kirim' }}</span>
             </button>
         </div>
     </header>
 
     {{-- Error Validation Alerts --}}
     @if($errors->any())
-    <div class="mx-auto max-w-7xl w-full px-4 sm:px-6 pt-6">
+    <div class="mx-auto max-w-7xl w-full px-5 sm:px-8 pt-6">
         <div class="rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-700 flex items-start gap-3">
             <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 mt-0.5"></i>
             <ul class="list-disc space-y-1 pl-4">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
@@ -88,10 +87,10 @@
     @endif
 
     {{-- Main Editor Layout (Blogspot Style) --}}
-    <main class="flex-1 mx-auto max-w-7xl w-full px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <main class="flex-1 mx-auto max-w-7xl w-full px-5 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {{-- Left Area: Main Editor Canvas --}}
-        <div class="lg:col-span-8 xl:col-span-9 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[calc(100vh-140px)]">
+        <div class="lg:col-span-8 xl:col-span-9 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[calc(100vh-140px)] mx-2 sm:mx-0">
             
             {{-- Toolbar --}}
             <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap items-center gap-1">
@@ -166,7 +165,7 @@
         </div>
 
         {{-- Right Area: Sidebar Settings (Post Settings) --}}
-        <div class="lg:col-span-4 xl:col-span-3 space-y-5 h-full overflow-y-auto pb-10 custom-scrollbar">
+        <div class="lg:col-span-4 xl:col-span-3 space-y-5 h-full overflow-y-auto pb-10 custom-scrollbar mx-2 sm:mx-0">
             
             {{-- Publish Settings Card --}}
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">

@@ -10,7 +10,7 @@
 
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
     {{-- Cinematic Hero --}}
-    <div class="relative w-full h-[50vh] min-h-100 max-h-150">
+    <div class="relative w-full h-[40vh] sm:h-[50vh] min-h-64 sm:min-h-100 max-h-150">
         @if($article->image)
             <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover" loading="lazy">
         @else
@@ -19,21 +19,21 @@
         <div class="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-slate-950 via-slate-900/50 to-transparent"></div>
     </div>
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-40 relative z-10 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-28 sm:-mt-40 relative z-10 pb-16 md:pb-20">
         
         {{-- Meta & Title --}}
-        <div class="mb-10 text-center">
-            <a href="{{ route('category.show', $article->category) }}" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-6 hover:bg-white/20 transition-colors">
-                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i> {{ $meta['label'] ?? $article->category }}
+        <div class="mb-8 md:mb-10 text-center">
+            <a href="{{ route('category.show', $article->category) }}" class="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4 md:mb-6 hover:bg-white/20 transition-colors">
+                <i data-lucide="layout-grid" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> {{ $meta['label'] ?? $article->category }}
             </a>
-            <h1 class="text-3xl sm:text-5xl font-black text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)] leading-tight tracking-tight mb-6">
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)] leading-tight tracking-tight mb-3 md:mb-6">
                 {{ $article->title }}
             </h1>
-            <p class="text-lg sm:text-xl text-slate-100 drop-shadow-[0_1px_6px_rgba(0,0,0,0.55)] font-medium leading-relaxed mb-8">
+            <p class="text-sm sm:text-lg md:text-xl text-slate-100 drop-shadow-[0_1px_6px_rgba(0,0,0,0.55)] font-medium leading-relaxed mb-6 md:mb-8">
                 {{ $article->excerpt }}
             </p>
             
-            <div class="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-400 border-y border-slate-200 dark:border-slate-800 py-4 bg-white/70 dark:bg-slate-900/50 backdrop-blur-sm rounded-2xl px-4">
+            <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400 border-y border-slate-200 dark:border-slate-800 py-3 md:py-4 bg-white/70 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl md:rounded-2xl px-3 md:px-4">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-orange-500 flex items-center justify-center text-white text-xs font-black shadow-sm">
                         {{ strtoupper(substr($article->author, 0, 1)) }}
@@ -97,49 +97,50 @@
 
         {{-- Tags --}}
         @if($article->tags)
-        <div class="flex flex-wrap items-center gap-2 mb-12 pb-12 border-b border-slate-200 dark:border-slate-800">
-            <i data-lucide="tags" class="w-5 h-5 text-slate-400 mr-2"></i>
+        <div class="flex flex-wrap items-center gap-1.5 md:gap-2 mb-8 md:mb-12 pb-8 md:pb-12 border-b border-slate-200 dark:border-slate-800">
+            <i data-lucide="tags" class="w-4 h-4 md:w-5 md:h-5 text-slate-400 mr-1 md:mr-2"></i>
             @foreach($article->tags as $tag)
-            <span class="px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-orange-100 hover:text-orange-600 dark:hover:bg-orange-500/20 dark:hover:text-orange-400 transition-colors cursor-pointer">
+            <span class="px-3 md:px-4 py-1 md:py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[11px] md:text-sm font-semibold hover:bg-orange-100 hover:text-orange-600 dark:hover:bg-orange-500/20 dark:hover:text-orange-400 transition-colors cursor-pointer">
                 {{ $tag }}
             </span>
             @endforeach
         </div>
         @endif
 
+        @if($article->reviewed_by)
         {{-- Editor Approval Card --}}
-        <div class="relative mb-16 max-w-2xl mx-auto">
+        <div class="relative mb-12 md:mb-16 max-w-2xl mx-auto">
             <div class="absolute top-0 left-0 right-0 h-0.75 rounded-t-5xl opacity-70" style="background: linear-gradient(to right, #4F46E5, #3B82F6, #FF7A1A);"></div>
 
-            <div class="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 rounded-5xl p-8 shadow-lg shadow-slate-900/8 hover:shadow-xl hover:shadow-slate-900/12 transition-all duration-250 hover:-translate-y-1">
-                <div class="flex flex-col sm:flex-row items-center sm:items-center gap-6">
+            <div class="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 rounded-3xl md:rounded-5xl p-5 md:p-8 shadow-lg shadow-slate-900/8 hover:shadow-xl hover:shadow-slate-900/12 transition-all duration-250 hover:-translate-y-1">
+                <div class="flex flex-col sm:flex-row items-center sm:items-center gap-4 md:gap-6">
                     <div class="relative shrink-0">
-                        <div class="absolute inset-0 w-20 h-20 rounded-full bg-blue-400 opacity-20 blur-lg"></div>
-                        <div class="relative w-20 h-20 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center text-2xl font-black text-slate-900 dark:text-white shadow-md">
-                            U
+                        <div class="absolute inset-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-blue-400 opacity-20 blur-lg"></div>
+                        <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center text-xl md:text-2xl font-black text-slate-900 dark:text-white shadow-md">
+                            {{ strtoupper(substr($article->reviewed_by, 0, 1)) }}
                         </div>
                     </div>
 
                     <div class="flex-1 text-center sm:text-left">
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">udin</h3>
-                            <div class="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 dark:bg-blue-500/10 rounded-full w-fit mx-auto sm:mx-0">
-                                <i data-lucide="check-circle" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                                <span class="text-xs font-bold text-blue-600 dark:text-blue-400">Verified Editor</span>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-2 mb-2">
+                            <h3 class="text-xl md:text-2xl font-black text-slate-900 dark:text-white">{{ $article->reviewed_by }}</h3>
+                            <div class="inline-flex items-center gap-1 px-2.5 md:px-3 py-0.5 md:py-1 bg-blue-50 dark:bg-blue-500/10 rounded-full w-fit mx-auto sm:mx-0">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600 dark:text-blue-400"></i>
+                                <span class="text-[10px] md:text-xs font-bold text-blue-600 dark:text-blue-400">Verified Editor</span>
                             </div>
                         </div>
 
-                        <p class="text-sm font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-3">
+                        <p class="text-[11px] md:text-sm font-bold uppercase tracking-widest text-orange-500 dark:text-orange-400 mb-2 md:mb-3">
                             Pemimpin Redaksi • Zverse
                         </p>
 
-                        <div class="flex flex-col sm:flex-row gap-3 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-4">
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 w-fit mx-auto sm:mx-0">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                        <div class="flex flex-col sm:flex-row gap-2 md:gap-3 text-[11px] md:text-xs font-semibold text-slate-500 dark:text-slate-400">
+                            <div class="inline-flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 w-fit mx-auto sm:mx-0">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-500"></i>
                                 <span>Approved for Publication</span>
                             </div>
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 w-fit mx-auto sm:mx-0">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-blue-500"></i>
+                            <div class="inline-flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 w-fit mx-auto sm:mx-0">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500"></i>
                                 <span>Verified by Editorial Team</span>
                             </div>
                         </div>
@@ -147,20 +148,21 @@
                 </div>
             </div>
         </div>
+        @endif
 
         {{-- Share Action --}}
-        <div class="mb-16 flex justify-center">
-            <button onclick="navigator.share ? navigator.share({title:'{{ $article->title }}',url:window.location.href}) : null" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:border-sky-500 hover:text-sky-500">
-                <i data-lucide="share-2" class="w-4 h-4"></i>
+        <div class="mb-10 md:mb-16 flex justify-center">
+            <button onclick="navigator.share ? navigator.share({title:'{{ $article->title }}',url:window.location.href}) : null" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 md:px-4 py-2 text-xs md:text-sm font-semibold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:border-sky-500 hover:text-sky-500">
+                <i data-lucide="share-2" class="w-3.5 h-3.5 md:w-4 md:h-4"></i>
                 <span>Bagikan</span>
             </button>
         </div>
 
         {{-- Discussion Section --}}
-        <div class="mb-16">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-3">
-                    <i data-lucide="message-circle" class="w-6 h-6 text-orange-500"></i> Diskusi <span id="comment-count">({{ $comments->count() }})</span>
+        <div class="mb-12 md:mb-16">
+            <div class="flex items-center justify-between mb-6 md:mb-8">
+                <h3 class="text-lg md:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2 md:gap-3">
+                    <i data-lucide="message-circle" class="w-5 h-5 md:w-6 md:h-6 text-orange-500"></i> Diskusi <span id="comment-count" class="text-base md:text-xl">({{ $comments->count() }})</span>
                 </h3>
             </div>
 

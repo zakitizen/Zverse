@@ -38,7 +38,6 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .touch-safe { min-height: 44px; }
         #sidebar { overscroll-behavior: contain; }
-        @media (max-width: 374px) { .xs\:inline { display: inline !important; } }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-600 flex overflow-hidden selection:bg-orange-500 selection:text-white">
@@ -48,66 +47,66 @@
 
     {{-- Sidebar --}}
     <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-72 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out shadow-2xl lg:shadow-none">
-        <div class="p-6 border-b border-slate-800/60 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-3 group">
+        <div class="p-4 md:p-5 border-b border-slate-800/60 flex items-center justify-between">
+            <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2 md:gap-3 group">
                 @php $zvLogo = 'logozverse.png'; @endphp
-                <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
+                <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="h-7 w-7 sm:h-9 sm:w-9 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
                 <div class="leading-none">
-                    <p class="text-lg font-black tracking-tight text-white">Zverse</p>
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Media & Tech</p>
+                    <p class="text-base md:text-lg font-black tracking-tight text-white">Zverse</p>
+                    <p class="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Media & Tech</p>
                 </div>
             </a>
             <button class="lg:hidden text-slate-400 hover:text-white transition-colors" onclick="toggleSidebar()">
-                <i data-lucide="x" class="w-5 h-5"></i>
+                <i data-lucide="x" class="w-4 h-4 md:w-5 md:h-5"></i>
             </button>
         </div>
         
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <p class="text-xs font-semibold text-slate-500 mb-3 px-3 uppercase tracking-wider">Menu Utama</p>
+        <nav class="flex-1 p-3 md:p-4 space-y-1 overflow-y-auto">
+            <p class="text-[10px] md:text-xs font-semibold text-slate-500 mb-2 md:mb-3 px-3 uppercase tracking-wider">Menu Utama</p>
             
-            <button onclick="setView('pending'); if(window.innerWidth < 1024) toggleSidebar()" class="view-btn group w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="pending">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="clock-3" class="w-5 h-5 transition-transform group-hover:scale-110"></i>
+            <button onclick="setView('pending'); if(window.innerWidth < 1024) toggleSidebar()" class="touch-safe view-btn group w-full flex items-center justify-between px-3.5 md:px-4 py-2.5 md:py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="pending">
+                <div class="flex items-center gap-2.5 md:gap-3">
+                    <i data-lucide="clock-3" class="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110"></i>
                     <span class="font-medium">Menunggu Review</span>
                 </div>
                 @if($pending->count())
-                <span class="bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-bold px-2 py-0.5 rounded-full">{{ $pending->count() }}</span>
+                <span class="bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] md:text-xs font-bold px-1.5 md:px-2 py-0.5 rounded-full">{{ $pending->count() }}</span>
                 @endif
             </button>
 
-            <button onclick="setView('approved'); if(window.innerWidth < 1024) toggleSidebar()" class="view-btn group w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="approved">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="badge-check" class="w-5 h-5 transition-transform group-hover:scale-110"></i>
+            <button onclick="setView('approved'); if(window.innerWidth < 1024) toggleSidebar()" class="touch-safe view-btn group w-full flex items-center justify-between px-3.5 md:px-4 py-2.5 md:py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="approved">
+                <div class="flex items-center gap-2.5 md:gap-3">
+                    <i data-lucide="badge-check" class="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110"></i>
                     <span class="font-medium">Disetujui</span>
                 </div>
                 @if($approved->count())
-                <span class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-bold px-2 py-0.5 rounded-full">{{ $approved->count() }}</span>
+                <span class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] md:text-xs font-bold px-1.5 md:px-2 py-0.5 rounded-full">{{ $approved->count() }}</span>
                 @endif
             </button>
 
-            <button onclick="setView('all'); if(window.innerWidth < 1024) toggleSidebar()" class="view-btn group w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="all">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="newspaper" class="w-5 h-5 transition-transform group-hover:scale-110"></i>
+            <button onclick="setView('all'); if(window.innerWidth < 1024) toggleSidebar()" class="touch-safe view-btn group w-full flex items-center justify-between px-3.5 md:px-4 py-2.5 md:py-3 rounded-xl text-sm transition-all duration-300 ease-out" data-view="all">
+                <div class="flex items-center gap-2.5 md:gap-3">
+                    <i data-lucide="newspaper" class="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110"></i>
                     <span class="font-medium">Semua Artikel</span>
                 </div>
             </button>
         </nav>
 
-        <div class="p-4 border-t border-slate-800/60 bg-slate-900/30">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 bg-gradient-to-br {{ $user->avatar_color }} from-slate-700 to-slate-800 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-inner ring-2 ring-slate-800">
+        <div class="p-3 md:p-4 border-t border-slate-800/60 bg-slate-900/30">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-sm">
+                <div class="flex items-center gap-2.5 md:gap-3 mb-3 md:mb-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br {{ $user->avatar_color }} from-slate-700 to-slate-800 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-bold shadow-inner ring-2 ring-slate-800">
                         {{ strtoupper(substr($user->display_name, 0, 1)) }}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-slate-200 text-sm font-semibold truncate">{{ $user->display_name }}</p>
-                        <p class="text-slate-500 text-xs truncate">Pemimpin Redaksi</p>
+                        <p class="text-slate-200 text-xs md:text-sm font-semibold truncate">{{ $user->display_name }}</p>
+                        <p class="text-slate-500 text-[10px] md:text-xs truncate">Pemimpin Redaksi</p>
                     </div>
                 </div>
                 <form action="{{ route('redaksi.logout') }}" method="POST">
                     @csrf
-                    <button class="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-rose-400 hover:bg-rose-400/10 text-sm font-medium transition-all duration-300 px-3 py-2.5 rounded-xl border border-transparent hover:border-rose-400/20">
-                        <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                    <button class="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-rose-400 hover:bg-rose-400/10 text-xs md:text-sm font-medium transition-all duration-300 px-2.5 md:px-3 py-2 md:py-2.5 rounded-xl border border-transparent hover:border-rose-400/20">
+                        <i data-lucide="log-out" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> Keluar
                     </button>
                 </form>
             </div>
@@ -118,21 +117,21 @@
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-slate-50">
         
         {{-- Header --}}
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shrink-0 z-10 shadow-sm shadow-slate-200/20">
-            <div class="flex items-center gap-4">
-                <button class="lg:hidden text-slate-500 hover:text-slate-900 bg-slate-100 p-2 rounded-lg transition-colors" onclick="toggleSidebar()">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <header class="bg-white border-b border-slate-200 px-4 md:px-6 py-2.5 md:py-3.5 flex items-center justify-between shrink-0 z-10 shadow-sm shadow-slate-200/20">
+            <div class="flex items-center gap-2.5 md:gap-4">
+                <button class="lg:hidden text-slate-500 hover:text-slate-900 bg-slate-100 p-1.5 md:p-2 rounded-lg transition-colors" onclick="toggleSidebar()">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 md:w-5 md:h-5"></i>
                 </button>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none mb-1">Dashboard Redaksi</h1>
-                    <p class="text-xs sm:text-sm text-slate-500 font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
+                    <h1 class="text-base sm:text-lg md:text-2xl font-black text-slate-900 tracking-tight leading-none mb-0.5 md:mb-1">Dashboard Redaksi</h1>
+                    <p class="text-[11px] sm:text-xs md:text-sm text-slate-500 font-medium">Selamat datang kembali, {{ explode(' ', $user->display_name)[0] }}</p>
                 </div>
             </div>
             
         </header>
 
         {{-- Scrollable Main Area --}}
-        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+        <main class="flex-1 overflow-y-auto p-3 md:p-6 lg:p-8">
             <div class="max-w-7xl mx-auto">
                 
                 @if(session('success'))
@@ -143,38 +142,38 @@
                 @endif
 
                 {{-- KPI Cards --}}
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i data-lucide="clock-3" class="w-6 h-6"></i>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+                    <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
+                        <div class="flex items-center justify-between mb-3 md:mb-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-50 text-amber-500 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="clock-3" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
-                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Pending</span>
+                            <span class="text-[10px] md:text-xs font-bold text-amber-600 bg-amber-50 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full">Pending</span>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium mb-1">Menunggu Review</p>
-                        <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ $pending->count() }}</h3>
+                        <p class="text-slate-500 text-[11px] md:text-sm font-medium mb-0.5 md:mb-1">Menunggu Review</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{{ $pending->count() }}</h3>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i data-lucide="badge-check" class="w-6 h-6"></i>
+                    <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
+                        <div class="flex items-center justify-between mb-3 md:mb-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-50 text-emerald-500 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="badge-check" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Siap</span>
+                            <span class="text-[10px] md:text-xs font-bold text-emerald-600 bg-emerald-50 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full">Siap</span>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium mb-1">Siap Diterbitkan</p>
-                        <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ $approved->count() }}</h3>
+                        <p class="text-slate-500 text-[11px] md:text-sm font-medium mb-0.5 md:mb-1">Siap Diterbitkan</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{{ $approved->count() }}</h3>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i data-lucide="newspaper" class="w-6 h-6"></i>
+                    <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-default group">
+                        <div class="flex items-center justify-between mb-3 md:mb-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-500 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="newspaper" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
-                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Total</span>
+                            <span class="text-[10px] md:text-xs font-bold text-blue-600 bg-blue-50 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full">Total</span>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium mb-1">Semua Artikel</p>
-                        <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ $all->count() }}</h3>
+                        <p class="text-slate-500 text-[11px] md:text-sm font-medium mb-0.5 md:mb-1">Semua Artikel</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{{ $all->count() }}</h3>
                     </div>
                 </div>
 
@@ -182,16 +181,16 @@
                 <div class="relative">
                     
                     {{-- Pending View --}}
-                    <div id="view-pending" class="space-y-4">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Menunggu Review</h2>
+                    <div id="view-pending" class="space-y-3 md:space-y-4">
+                        <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <h2 class="text-lg md:text-xl font-bold text-slate-900 tracking-tight">Menunggu Review</h2>
                         </div>
                         
                         @forelse($pending as $art)
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                        <div class="bg-white rounded-xl md:rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 md:gap-6">
                                 <div class="flex-1 min-w-0">
-                                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                                    <div class="flex flex-wrap items-center gap-2 md:gap-3 mb-2 md:mb-3">
                                         <span class="inline-flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1 rounded-full font-bold shadow-sm">
                                             <i data-lucide="clock-3" class="w-3.5 h-3.5"></i> Pending Review
                                         </span>
@@ -199,34 +198,34 @@
                                             <i data-lucide="folder-open" class="w-3.5 h-3.5"></i> {{ ucfirst($art->category) }}
                                         </span>
                                     </div>
-                                    <h3 class="text-lg md:text-xl font-bold text-slate-900 mb-2 group-hover:text-orange-500 transition-colors leading-tight">{{ $art->title }}</h3>
-                                    <p class="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">{{ $art->excerpt }}</p>
+                                    <h3 class="text-base md:text-lg lg:text-xl font-bold text-slate-900 mb-1.5 md:mb-2 group-hover:text-orange-500 transition-colors leading-tight">{{ $art->title }}</h3>
+                                    <p class="text-slate-500 text-xs md:text-sm mb-3 md:mb-4 line-clamp-2 leading-relaxed">{{ $art->excerpt }}</p>
                                     
-                                    <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500">
-                                        <div class="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100"><i data-lucide="pen-line" class="w-4 h-4 text-slate-400"></i> {{ $art->author_name }}</div>
-                                        <div class="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100"><i data-lucide="calendar-days" class="w-4 h-4 text-slate-400"></i> Disubmit: {{ $art->submitted_at?->format('d M Y, H:i') }}</div>
+                                    <div class="flex flex-wrap items-center gap-2 md:gap-4 text-[11px] md:text-xs font-medium text-slate-500">
+                                        <div class="flex items-center gap-1 md:gap-1.5 bg-slate-50 px-2 md:px-2.5 py-1 md:py-1.5 rounded-lg border border-slate-100"><i data-lucide="pen-line" class="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400"></i> {{ $art->author_name }}</div>
+                                        <div class="flex items-center gap-1 md:gap-1.5 bg-slate-50 px-2 md:px-2.5 py-1 md:py-1.5 rounded-lg border border-slate-100"><i data-lucide="calendar-days" class="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400"></i> Disubmit: {{ $art->submitted_at?->format('d M Y, H:i') }}</div>
                                     </div>
                                 </div>
                                 
-                                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-2 shrink-0 w-full lg:w-44">
-                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-2.5 rounded-xl transition-all duration-300">
-                                        <i data-lucide="pencil" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Edit
+                                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-1.5 md:gap-2 shrink-0 w-full lg:w-44">
+                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe w-full flex items-center justify-center gap-1 md:gap-1.5 text-[11px] md:text-xs lg:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all duration-300">
+                                        <i data-lucide="pencil" class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0"></i> Edit
                                     </a>
                                     <form action="{{ route('redaksi.articles.approve', $art->id) }}" method="POST" class="w-full">
                                         @csrf
                                         <input type="hidden" name="note" value="">
-                                        <button type="submit" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-emerald-500/25 hover:scale-[1.02]">
-                                            <i data-lucide="check" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Setujui
+                                        <button type="submit" class="touch-safe w-full flex items-center justify-center gap-1 md:gap-1.5 text-[11px] md:text-xs lg:text-sm bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all duration-300 shadow-sm hover:shadow-emerald-500/25 hover:scale-[1.02]">
+                                            <i data-lucide="check" class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0"></i> Setujui
                                         </button>
                                     </form>
                                     <form action="{{ route('redaksi.articles.publish', $art->id) }}" method="POST" class="w-full">
                                         @csrf
-                                        <button type="submit" onclick="return confirm('Terbitkan langsung tanpa review bertahap?')" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:scale-[1.02]">
-                                            <i data-lucide="rocket" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Terbitkan
+                                        <button type="submit" onclick="return confirm('Terbitkan langsung tanpa review bertahap?')" class="touch-safe w-full flex items-center justify-center gap-1 md:gap-1.5 text-[11px] md:text-xs lg:text-sm bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:scale-[1.02]">
+                                            <i data-lucide="rocket" class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0"></i> Terbitkan
                                         </button>
                                     </form>
-                                    <button onclick="toggleReject('reject-{{ $art->id }}')" class="touch-safe w-full flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-white hover:bg-rose-50 text-rose-600 font-semibold px-3 py-2.5 rounded-xl border border-rose-200 transition-all duration-300 hover:scale-[1.02]">
-                                        <i data-lucide="x" class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i> Tolak
+                                    <button onclick="toggleReject('reject-{{ $art->id }}')" class="touch-safe w-full flex items-center justify-center gap-1 md:gap-1.5 text-[11px] md:text-xs lg:text-sm bg-white hover:bg-rose-50 text-rose-600 font-semibold px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl border border-rose-200 transition-all duration-300 hover:scale-[1.02]">
+                                        <i data-lucide="x" class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0"></i> Tolak
                                     </button>
                                 </div>
                             </div>
@@ -257,40 +256,40 @@
                     </div>
 
                     {{-- Approved View --}}
-                    <div id="view-approved" class="hidden space-y-4">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Siap Diterbitkan</h2>
+                    <div id="view-approved" class="hidden space-y-3 md:space-y-4">
+                        <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <h2 class="text-lg md:text-xl font-bold text-slate-900 tracking-tight">Siap Diterbitkan</h2>
                         </div>
 
                         @forelse($approved as $art)
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="bg-white rounded-xl md:rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
                             <div class="flex-1">
-                                <div class="flex flex-wrap items-center gap-3 mb-2">
-                                    <span class="inline-flex items-center gap-1.5 text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-bold shadow-sm">
-                                        <i data-lucide="badge-check" class="w-3.5 h-3.5"></i> Disetujui
+                                <div class="flex flex-wrap items-center gap-2 md:gap-3 mb-1.5 md:mb-2">
+                                    <span class="inline-flex items-center gap-1 md:gap-1.5 text-[11px] md:text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-2 md:px-3 py-0.5 md:py-1 rounded-full font-bold shadow-sm">
+                                        <i data-lucide="badge-check" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> Disetujui
                                     </span>
-                                    <span class="text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-full">{{ ucfirst($art->category) }}</span>
+                                    <span class="text-[11px] md:text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-100 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full">{{ ucfirst($art->category) }}</span>
                                 </div>
-                                <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{{ $art->title }}</h3>
-                                <p class="text-slate-500 text-sm font-medium flex items-center gap-2">
-                                    <i data-lucide="circle-user-round" class="w-4 h-4"></i> {{ $art->author_name }} 
+                                <h3 class="text-sm md:text-base lg:text-lg font-bold text-slate-900 mb-1.5 md:mb-2 group-hover:text-emerald-600 transition-colors">{{ $art->title }}</h3>
+                                <p class="text-slate-500 text-xs md:text-sm font-medium flex items-center gap-1.5 md:gap-2">
+                                    <i data-lucide="circle-user-round" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> {{ $art->author_name }} 
                                     @if($art->reviewed_by)
-                                    <span class="text-slate-300 mx-1">•</span> 
-                                    <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Disetujui oleh: {{ $art->reviewed_by }}
+                                    <span class="text-slate-300 mx-0.5 md:mx-1">•</span> 
+                                    <i data-lucide="check" class="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-500"></i> Disetujui oleh: {{ $art->reviewed_by }}
                                     @endif
                                 </p>
                             </div>
                             <div class="shrink-0 w-full md:w-auto">
                                 <form action="{{ route('redaksi.articles.publish', $art->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" onclick="return confirm('Terbitkan artikel ini ke publik?')" class="w-full md:w-auto flex items-center justify-center gap-2 text-sm bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:-translate-y-0.5">
-                                        <i data-lucide="rocket" class="w-4 h-4"></i> Terbitkan Sekarang
+                                    <button type="submit" onclick="return confirm('Terbitkan artikel ini ke publik?')" class="touch-safe w-full md:w-auto flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-500/25 hover:-translate-y-0.5">
+                                        <i data-lucide="rocket" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> Terbitkan
                                     </button>
                                 </form>
                             </div>
                         </div>
                         @empty
-                        <div class="bg-white rounded-2xl border border-slate-200 p-8 md:p-16 text-center shadow-sm flex flex-col items-center justify-center">
+                        <div class="bg-white rounded-xl md:rounded-2xl border border-slate-200 p-8 md:p-16 text-center shadow-sm flex flex-col items-center justify-center">
                             <div class="w-16 h-16 md:w-20 md:h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                                 <i data-lucide="file-search" class="w-8 h-8 md:w-10 md:h-10 text-slate-400"></i>
                             </div>
@@ -301,18 +300,17 @@
                     </div>
 
                     {{-- All Articles View --}}
-                    <div id="view-all" class="hidden space-y-4">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Semua Artikel Workflow</h2>
+                    <div id="view-all" class="hidden space-y-3 md:space-y-4">
+                        <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <h2 class="text-lg md:text-xl font-bold text-slate-900 tracking-tight">Semua Artikel Workflow</h2>
                         </div>
 
-                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                             @forelse($all as $art)
                             @php 
                                 $label = \App\Models\Article::$statusLabel[$art->status] ?? $art->status; 
                                 $colorStr = \App\Models\Article::$statusColor[$art->status] ?? ''; 
                                 
-                                // Mapping existing blade color logic to SaaS design system for ALL view
                                 $badgeClass = 'bg-slate-50 border-slate-200 text-slate-600';
                                 $icon = 'file-text';
                                 if(str_contains($colorStr, 'yellow') || str_contains($colorStr, 'amber')) { $badgeClass = 'bg-amber-50 border-amber-200 text-amber-700'; $icon = 'clock-3'; }
@@ -321,41 +319,41 @@
                                 if(str_contains($colorStr, 'red') || str_contains($colorStr, 'rose')) { $badgeClass = 'bg-rose-50 border-rose-200 text-rose-700'; $icon = 'x'; }
                             @endphp
                             
-                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50/80 transition-colors group">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50/80 transition-colors group">
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-slate-900 font-bold text-sm mb-1 truncate group-hover:text-orange-500 transition-colors">{{ $art->title }}</p>
-                                    <div class="flex items-center gap-3 text-xs font-medium text-slate-500">
-                                        <span class="flex items-center gap-1"><i data-lucide="pen-line" class="w-3.5 h-3.5"></i> {{ $art->author_name }}</span>
+                                    <p class="text-slate-900 font-bold text-xs md:text-sm mb-1 truncate group-hover:text-orange-500 transition-colors">{{ $art->title }}</p>
+                                    <div class="flex items-center gap-2 md:gap-3 text-[11px] md:text-xs font-medium text-slate-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="pen-line" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> {{ $art->author_name }}</span>
                                         <span class="text-slate-300">•</span>
                                         <span>{{ ucfirst($art->category) }}</span>
                                         <span class="text-slate-300">•</span>
                                         <span>{{ $art->created_at->format('d M Y') }}</span>
                                     </div>
                                 </div>
-                                <div class="flex flex-wrap items-center gap-2 sm:gap-4 shrink-0">
-                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe flex items-center gap-1 text-xs text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-semibold transition-colors">
-                                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i> Edit
+                                <div class="flex flex-wrap items-center gap-1.5 md:gap-2 sm:gap-4 shrink-0">
+                                    <a href="{{ route('redaksi.articles.edit', $art->id) }}" class="touch-safe flex items-center gap-1 text-[11px] md:text-xs text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 md:px-3 py-1 md:py-1.5 rounded-lg font-semibold transition-colors">
+                                        <i data-lucide="pencil" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> Edit
                                     </a>
-                                    <span class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-bold shadow-sm {{ $badgeClass }}">
-                                        <i data-lucide="{{ $icon }}" class="w-3.5 h-3.5"></i> {{ $label }}
+                                    <span class="inline-flex items-center gap-1 md:gap-1.5 text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-full border font-bold shadow-sm {{ $badgeClass }}">
+                                        <i data-lucide="{{ $icon }}" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> {{ $label }}
                                     </span>
                                     
                                     @if($art->status === 'published')
-                                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto sm:border-l sm:border-slate-200 sm:pl-4">
-                                        <a href="{{ route('article.show', $art->id) }}" target="_blank" class="touch-safe flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-semibold transition-colors">
-                                            <i data-lucide="eye" class="w-3.5 h-3.5"></i> Lihat
+                                    <div class="flex flex-wrap items-center gap-1.5 md:gap-2 w-full sm:w-auto sm:border-l sm:border-slate-200 sm:pl-4">
+                                        <a href="{{ route('article.show', $art->id) }}" target="_blank" class="touch-safe flex items-center gap-1 text-[11px] md:text-xs text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 md:px-3 py-1 md:py-1.5 rounded-lg font-semibold transition-colors">
+                                            <i data-lucide="eye" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> Lihat
                                         </a>
                                         <form action="{{ route('redaksi.articles.unpublish', $art->id) }}" method="POST">
                                             @csrf
-                                            <button onclick="return confirm('Tarik artikel ini dari tampilan publik?')" class="touch-safe flex items-center gap-1 text-xs text-slate-500 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-transparent hover:border-rose-200">
-                                                <i data-lucide="undo-2" class="w-3.5 h-3.5"></i> Tarik
+                                            <button onclick="return confirm('Tarik artikel ini dari tampilan publik?')" class="touch-safe flex items-center gap-1 text-[11px] md:text-xs text-slate-500 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-2 md:px-3 py-1 md:py-1.5 rounded-lg font-semibold transition-colors border border-transparent hover:border-rose-200">
+                                                <i data-lucide="undo-2" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> Tarik
                                             </button>
                                         </form>
                                         <form action="{{ route('redaksi.articles.destroy', $art->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini secara permanen dari sistem?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="touch-safe flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg font-semibold transition-colors border border-rose-200">
-                                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
+                                            <button type="submit" class="touch-safe flex items-center gap-1 text-[11px] md:text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2 md:px-3 py-1 md:py-1.5 rounded-lg font-semibold transition-colors border border-rose-200">
+                                                <i data-lucide="trash-2" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> Hapus
                                             </button>
                                         </form>
                                     </div>
@@ -400,10 +398,9 @@
             const active = b.dataset.view === view;
             
             if(active) {
-                b.className = 'view-btn group w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-300 ease-out bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/20 font-bold';
-                // Find all icon children and modify if needed (already handled by Lucide via CSS classes generally)
+                b.className = 'view-btn group w-full flex items-center justify-between px-3.5 md:px-4 py-2.5 md:py-3 rounded-xl text-sm transition-all duration-300 ease-out bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/20 font-bold';
             } else {
-                b.className = 'view-btn group w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-300 ease-out text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium';
+                b.className = 'view-btn group w-full flex items-center justify-between px-3.5 md:px-4 py-2.5 md:py-3 rounded-xl text-sm transition-all duration-300 ease-out text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium';
             }
         });
     }

@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('title', $query ? "Hasil pencarian: $query — Zverse" : 'Cari di Zverse')
 @section('content')
-<div class="min-h-screen bg-slate-50 dark:bg-slate-950 py-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 md:py-16">
+    <div class="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8">
         
-        <div class="mb-12 text-center">
-            <h1 class="text-4xl font-black text-slate-900 dark:text-white mb-8 tracking-tight">Eksplorasi Zverse</h1>
+        <div class="mb-8 md:mb-12 text-center">
+            <h1 class="text-2xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 md:mb-8 tracking-tight">Eksplorasi Zverse</h1>
             <form action="{{ route('search') }}" method="GET" class="relative group max-w-2xl mx-auto">
-                <i data-lucide="search" class="w-6 h-6 text-slate-400 absolute left-6 top-1/2 -translate-y-1/2 group-focus-within:text-orange-500 transition-colors"></i>
+                <i data-lucide="search" class="w-5 h-5 md:w-6 md:h-6 text-slate-400 absolute left-4 md:left-6 top-1/2 -translate-y-1/2 group-focus-within:text-orange-500 transition-colors"></i>
                 <input type="search" name="q" value="{{ $query }}" placeholder="Cari game, film, tren, atau review..."
-                       class="w-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl py-5 pl-16 pr-6 text-lg font-medium text-slate-900 dark:text-white focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all shadow-sm">
-                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 bg-slate-900 dark:bg-white hover:bg-orange-500 dark:hover:bg-orange-500 text-white dark:text-slate-900 hover:text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-colors">
+                       class="w-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-xl md:rounded-2xl py-3.5 md:py-5 pl-12 md:pl-16 pr-4 md:pr-6 text-base md:text-lg font-medium text-slate-900 dark:text-white focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all shadow-sm">
+                <button type="submit" class="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 bg-slate-900 dark:bg-white hover:bg-orange-500 dark:hover:bg-orange-500 text-white dark:text-slate-900 hover:text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-colors">
                     Cari
                 </button>
             </form>
@@ -22,19 +22,19 @@
         </div>
         
         @if($results->count())
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             @foreach($results as $article)
-            <a href="{{ route('article.show', $article->id) }}" class="group bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
-                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 relative">
+            <a href="{{ route('article.show', $article->id) }}" class="group bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-2 md:p-3 border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-3 md:gap-4">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-xl overflow-hidden shrink-0 relative">
                     <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 </div>
-                <div class="flex-1 py-2 pr-2">
+                <div class="flex-1 py-1 md:py-2 pr-1 md:pr-2">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-purple-500 mb-1 block">{{ $article->category }}</span>
-                    <h3 class="text-slate-900 dark:text-white font-bold text-base leading-snug group-hover:text-orange-500 transition-colors line-clamp-2 mb-2">
+                    <h3 class="text-slate-900 dark:text-white font-bold text-sm md:text-base leading-snug group-hover:text-orange-500 transition-colors line-clamp-2 mb-1.5 md:mb-2">
                         {{ $article->title }}
                     </h3>
-                    <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                        <i data-lucide="clock-3" class="w-3 h-3"></i> {{ $article->read_time }}
+                    <div class="flex items-center gap-2 text-slate-400 text-[11px] md:text-xs font-semibold">
+                        <i data-lucide="clock-3" class="w-3 h-3 md:w-3.5 md:h-3.5"></i> {{ $article->read_time }}
                     </div>
                 </div>
             </a>
