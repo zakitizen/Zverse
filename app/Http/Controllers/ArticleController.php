@@ -8,7 +8,7 @@ class ArticleController extends Controller
 {
     public function show(string $id)
     {
-        $query = Article::query()->whereIn('status', ['published', 'approved']);
+        $query = Article::query()->where('status', 'published');
 
         $article = is_numeric($id)
             ? $query->where('id', $id)->firstOrFail()

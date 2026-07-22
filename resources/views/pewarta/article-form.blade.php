@@ -72,7 +72,7 @@
                 <i data-lucide="file-text" class="w-4 h-4"></i> {{ $article ? 'Simpan Perubahan' : 'Simpan ke Draft' }}
             </button>
             <button type="submit" name="action" value="submit" class="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm shadow-sky-500/20 hover:-translate-y-0.5">
-                <i data-lucide="send" class="w-4 h-4"></i> Kirim ke Redaksi
+                <i data-lucide="send" class="w-4 h-4"></i> {{ $user->role === 'redaksi' ? 'Setujui' : 'Kirim ke Redaksi' }}
             </button>
         </div>
     </header>

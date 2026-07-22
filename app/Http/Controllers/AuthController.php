@@ -64,7 +64,7 @@ class AuthController extends Controller
         $user = User::create([
             'username'     => strtolower($request->username),
             'display_name' => $request->display_name,
-            'password'     => Hash::make($request->password),
+            'password'     => $request->password,
             'avatar_color' => User::pickColor($request->username),
             'role'         => 'reader',
         ]);
@@ -84,6 +84,7 @@ class AuthController extends Controller
     private function redirectByRole(string $role): \Illuminate\Http\RedirectResponse
     {
         return match ($role) {
+            'admin'   => redirect()->route('pewarta.dashboard'),
             'redaksi' => redirect()->route('redaksi.dashboard'),
             'pewarta' => redirect()->route('pewarta.dashboard'),
             default   => redirect('/'),

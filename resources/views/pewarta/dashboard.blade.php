@@ -243,8 +243,8 @@
                                 </form>
                             @endif
                             
-                            @if($article->status === 'published' && $article->published_article_id)
-                                <a href="{{ route('article.show', $article->published_article_id) }}" target="_blank" class="flex items-center gap-1.5 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl font-bold hover:bg-emerald-100 transition-colors">
+                            @if($article->status === 'published')
+                                <a href="{{ route('article.show', $article->slug) }}" target="_blank" class="flex items-center gap-1.5 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl font-bold hover:bg-emerald-100 transition-colors">
                                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Lihat Web
                                 </a>
                             @endif

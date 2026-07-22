@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->string('avatar_color')->default('from-orange-500 to-amber-400')->after('remember_token');
             }
             if (!Schema::hasColumn('users', 'role')) {
-                $table->enum('role', ['reader', 'pewarta', 'redaksi'])->default('reader')->after('avatar_color');
+                $table->enum('role', ['reader', 'pewarta', 'redaksi', 'admin'])->default('reader')->after('avatar_color');
             }
 
             // Jadikan email & name nullable

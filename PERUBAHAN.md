@@ -79,10 +79,14 @@ php artisan serve
 
 ## 🔑 Akun Default (dari Seeder)
 
-| Role    | Username | Password    |
-|---------|----------|-------------|
-| Admin   | admin    | nexus2026   |
-| Pewarta | rizky    | pewarta123  |
-| Redaksi | dian     | redaksi123  |
+| Role    | Username | Password    | Nama           |
+|---------|----------|-------------|----------------|
+| Admin   | admin    | nexus2026   | Admin Zverse   |
+| Pewarta | rizky    | pewarta123  | Rizky Pratama  |
+| Pewarta | raka     | pewarta123  | Raka Aditya    |
+| Pewarta | indri    | pewarta123  | Indri Sari     |
+| Redaksi | tegar    | redaksi123  | Tegar Kusuma   |
+| Redaksi | udin     | redaksi123  | Udin Saputra   |
+| Redaksi | jaya     | redaksi123  | Jaya Pratama   |
 
 Semua akun login dari satu halaman: `/login`

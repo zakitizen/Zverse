@@ -13,7 +13,7 @@ class SearchController extends Controller
         $results = collect();
 
         if (trim($query)) {
-            $results = Article::where(function ($q) use ($query) {
+            $results = Article::where('status', 'published')->where(function ($q) use ($query) {
                 $q->where('title', 'like', "%{$query}%")
                   ->orWhere('excerpt', 'like', "%{$query}%")
                   ->orWhereJsonContains('tags', $query);

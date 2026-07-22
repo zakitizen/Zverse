@@ -13,7 +13,7 @@ class CategoryController extends Controller
             abort(404, 'Kategori tidak ditemukan');
         }
 
-        $articles = Article::where('category', $category)->latest()->get();
+        $articles = Article::where('category', $category)->where('status', 'published')->latest()->get();
         $meta     = Article::$categoryMeta[$category] ?? [];
 
         return view('pages.category', compact('category', 'articles', 'meta'));

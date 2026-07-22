@@ -64,6 +64,12 @@ class RedaksiController extends Controller
         ]));
         $article->save();
 
+        $user = $this->currentUser();
+        if ($request->input('action') === 'submit') {
+            $article->approve($user->display_name);
+            return redirect()->route('redaksi.dashboard')->with('success', 'Artikel berhasil disetujui.');
+        }
+
         return redirect()->route('redaksi.dashboard')->with('success', 'Artikel berhasil diperbarui.');
     }
 
