@@ -1,12 +1,12 @@
 <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl shadow-sm shadow-slate-200/30 dark:border-slate-800 dark:bg-slate-950/80">
-    <div class="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between gap-1 sm:gap-2 px-3 sm:px-6 lg:px-8">
+    <div class="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between gap-0.5 sm:gap-2 px-2 sm:px-6 lg:px-8">
         
         {{-- Logo Zverse --}}
-        <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-1.5 sm:gap-3 group">
+        <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-1 sm:gap-3 group">
             @php $zvLogo = 'logozverse.png'; @endphp
             <img src="{{ asset($zvLogo) }}?v={{ filemtime(public_path($zvLogo)) }}" alt="Zverse" class="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
-            <div class="leading-none hidden sm:block">
-                <p class="text-sm sm:text-lg font-black tracking-tight text-slate-900 dark:text-white">Zverse</p>
+            <div class="leading-none">
+                <p class="text-[11px] sm:text-lg font-black tracking-tight text-slate-900 dark:text-white">Zverse</p>
                 <p class="text-[8px] sm:text-[10px] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-slate-500 dark:text-slate-400 hidden sm:block">Media & Tech</p>
             </div>
         </a>
@@ -28,7 +28,7 @@
                 <div class="relative">
                     <i data-lucide="search" class="pointer-events-none absolute left-2 sm:left-3 top-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 -translate-y-1/2 text-slate-400"></i>
                     <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari"
-                           class="w-24 sm:w-36 md:w-44 rounded-full border border-slate-200 bg-slate-50 py-1.5 sm:py-2 pl-7 sm:pl-9 pr-2 sm:pr-4 text-[11px] sm:text-sm font-medium text-slate-700 outline-none transition-all focus:w-28 sm:focus:w-44 md:focus:w-56 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                           class="w-20 sm:w-36 md:w-44 rounded-full border border-slate-200 bg-slate-50 py-1.5 sm:py-2 pl-7 sm:pl-9 pr-2 sm:pr-4 text-[11px] sm:text-sm font-medium text-slate-700 outline-none transition-all focus:w-24 sm:focus:w-44 md:focus:w-56 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
                 </div>
             </form>
 

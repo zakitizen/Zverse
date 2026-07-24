@@ -120,7 +120,7 @@
         <header class="bg-white border-b border-slate-200 px-4 md:px-6 py-2.5 md:py-3.5 flex items-center justify-between shrink-0 z-10 shadow-sm shadow-slate-200/20">
             <div class="flex items-center gap-2.5 md:gap-4">
                 <button class="lg:hidden text-slate-500 hover:text-slate-900 bg-slate-100 p-1.5 md:p-2 rounded-lg transition-colors" onclick="toggleSidebar()">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4 md:w-5 md:h-5"></i>
+                    <i data-lucide="menu" class="w-4 h-4 md:w-5 md:h-5"></i>
                 </button>
                 <div>
                     <h1 class="text-base sm:text-lg md:text-2xl font-black text-slate-900 tracking-tight leading-none mb-0.5 md:mb-1">Dashboard Redaksi</h1>
