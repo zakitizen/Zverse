@@ -10,17 +10,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ─── Admin ───────────────────────────────────────────────────────────
-        $admin = User::create([
-            'name'         => 'Admin Zverse',
-            'username'     => 'admin',
-            'display_name' => 'Admin Zverse',
-            'email'        => 'admin@nexus.id',
-            'password'     => 'nexus2026',
-            'avatar_color' => 'from-rose-500 to-orange-400',
-            'role'         => 'admin',
-        ]);
-
         // ─── Pewarta (Reporter) ─────────────────────────────────────────────
         $rizky = User::create([
             'name'         => 'Rizky Pratama',
