@@ -81,7 +81,6 @@ php artisan serve
 
 | Role    | Username | Password    | Nama           |
 |---------|----------|-------------|----------------|
-| Admin   | admin    | nexus2026   | Admin Zverse   |
 | Pewarta | rizky    | pewarta123  | Rizky Pratama  |
 | Pewarta | raka     | pewarta123  | Raka Aditya    |
 | Pewarta | indri    | pewarta123  | Indri Sari     |

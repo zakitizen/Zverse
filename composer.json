@@ -1,6 +1,6 @@
 {
-    "name": "nexus/nexus-id",
-    "description": "NEXUS.id — Portal Entertainment Indonesia",
+    "name": "zverse/zverse-id",
+    "description": "Zverse.id — Portal Entertainment Indonesia",
     "type": "project",
     "require": {
         "php": "^8.2",

@@ -1,4 +1,4 @@
-# Ringkasan Tabel Database — NEXUS.id
+# Ringkasan Tabel Database — Zverse.id
 
 ## Tabel Utama (Aplikasi)
 

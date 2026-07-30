@@ -1,4 +1,4 @@
-# NEXUS.id — Laravel
+# Zverse.id — Laravel
 
 Portal entertainment Indonesia. Dikonversi dari React + Vite ke **Laravel 11 + Blade + Tailwind CDN**.
 
@@ -8,7 +8,7 @@ Portal entertainment Indonesia. Dikonversi dari React + Vite ke **Laravel 11 + B
 
 ```bash
 # 1. Clone / extract project
-cd nexus-laravel
+cd zverse-laravel
 
 # 2. Install dependencies
 composer install
@@ -39,7 +39,7 @@ Di `.env`:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=nexus_id
+DB_DATABASE=zverse_id
 DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
@@ -55,7 +55,6 @@ php artisan migrate --seed
 
 | Role    | Username | Password    | URL                   |
 |---------|----------|-------------|-----------------------|
-| Admin   | —        | `nexus2026` | `/admin/login`        |
 | Pewarta | `rizky`  | `pewarta123`| `/pewarta/login`      |
 | Redaksi | `dian`   | `redaksi123`| `/redaksi/login`      |
 | Reader  | Daftar sendiri | —   | `/login`              |
@@ -65,7 +64,7 @@ php artisan migrate --seed
 ## 📁 Struktur Project
 
 ```
-nexus-laravel/
+zverse-laravel/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/

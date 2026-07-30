@@ -1,7 +1,7 @@
-# Database Schema — NEXUS.id
+# Database Schema — Zverse.id
 
 **DBMS:** MySQL / MariaDB  
-**Database:** `nexus_id`  
+**Database:** `zverse_id`  
 **Laravel Version:** 11.x
 
 ---
