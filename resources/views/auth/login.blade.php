@@ -57,7 +57,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold">Password</label>
-                            <a href="#" class="text-xs font-semibold text-sky-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Lupa Password?</a>
+                            <a href="{{ route('password.request') }}" class="text-xs font-semibold text-sky-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Lupa Password?</a>
                         </div>
                         <input type="password" name="password" required
                                class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all"
@@ -100,6 +100,12 @@
                         <input type="text" name="username" value="{{ old('username') }}" required
                                class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all"
                                placeholder="min. 3 karakter">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Email</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all"
+                               placeholder="contoh@email.com">
                     </div>
                     <div>
                         <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Password</label>

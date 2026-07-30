@@ -18,17 +18,17 @@ return new class extends Migration
 
         // ─── USERS ───────────────────────────────────────────────────────────
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username', 50)->nullable()->unique()->change();
+            $table->string('username', 50)->nullable()->change();
             $table->string('display_name', 100)->nullable()->change();
             $table->string('avatar_color', 60)->default('from-orange-500 to-amber-400')->change();
-            $table->string('email', 100)->nullable()->unique()->change();
+            $table->string('email', 100)->nullable()->change();
             $table->string('role', 15)->default('reader')->change();
         });
 
         // ─── ARTICLES ────────────────────────────────────────────────────────
         Schema::table('articles', function (Blueprint $table) {
             $table->text('title')->change();
-            $table->string('slug', 500)->unique()->change();
+            $table->string('slug', 500)->change();
             $table->string('read_time', 20)->default('5 menit')->change();
             $table->string('category', 20)->change();
             $table->string('image', 1000)->nullable()->change();
@@ -55,16 +55,16 @@ return new class extends Migration
         }
 
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username', 255)->nullable()->unique()->change();
+            $table->string('username', 255)->nullable()->change();
             $table->string('display_name', 255)->nullable()->change();
             $table->string('avatar_color', 255)->default('from-orange-500 to-amber-400')->change();
-            $table->string('email', 255)->nullable()->unique()->change();
+            $table->string('email', 255)->nullable()->change();
             $table->string('role', 255)->default('reader')->change();
         });
 
         Schema::table('articles', function (Blueprint $table) {
             $table->string('title', 255)->change();
-            $table->string('slug', 255)->unique()->change();
+            $table->string('slug', 255)->change();
             $table->string('read_time', 255)->default('5 menit')->change();
             $table->string('category', 255)->change();
             $table->string('image', 255)->nullable()->change();
