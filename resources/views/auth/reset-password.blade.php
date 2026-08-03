@@ -28,12 +28,9 @@
 
             <form action="{{ route('password.update') }}" method="POST" class="space-y-5">
                 @csrf
-                <input type="hidden" name="token" value="{{ $token }}">
-                <div>
-                    <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Alamat Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required
-                           class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all"
-                           placeholder="Email terdaftar">
+                <div class="bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-700 dark:text-sky-400 text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+                    <i data-lucide="user-check" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-medium">Reset password untuk <b>{{ $username }}</b></span>
                 </div>
                 <div>
                     <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Password Baru</label>

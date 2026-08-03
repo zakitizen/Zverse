@@ -32,8 +32,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ─── Forgot / Reset Password ──────────────────────────────────────────────────
 Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('password.request')->middleware('guest');
-Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email')->middleware('guest');
-Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset')->middleware('guest');
+Route::post('/forgot-password', [AuthController::class, 'verifyUsername'])->name('password.verify')->middleware('guest');
+Route::get('/reset-password', [AuthController::class, 'showResetForm'])->name('password.reset')->middleware('guest');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update')->middleware('guest');
 
 // Redirect lama

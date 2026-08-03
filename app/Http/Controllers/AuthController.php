@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Mail\ResetPasswordMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -87,35 +84,41 @@ class AuthController extends Controller
         return view('auth.forgot-password');
     }
 
-    public function sendResetLink(Request $request)
+    public function verifyUsername(Request $request)
     {
-        if (empty($request->email)) {
-            return back()->withErrors(['email' => 'Masukkan alamat email kamu.'])->withInput();
+        if (empty($request->username)) {
+            return back()->withErrors(['username' => 'Masukkan username kamu.'])->withInput();
         }
 
-        $user = User::where('email', strtolower($request->email))->first();
+        $user = User::where('username', strtolower(trim($request->username)))->first();
+
         if (!$user) {
-            return back()->withErrors(['email' => 'Email tidak ditemukan.'])->withInput();
+            return back()->withErrors(['username' => 'Username tidak ditemukan.'])->withInput();
         }
 
-        $token = Password::broker()->createToken($user);
-        Mail::to($user->email)->send(new ResetPasswordMail($token, $user->email));
-
-        return back()->with('success', 'Link reset password telah dikirim ke email kamu.');
+        session(['reset_username' => $user->username]);
+        return redirect()->route('password.reset');
     }
 
-    public function showResetForm($token)
+    public function showResetForm()
     {
         if (Auth::check()) {
             return $this->redirectByRole(Auth::user()->role);
         }
-        return view('auth.reset-password', ['token' => $token]);
+        if (!session('reset_username')) {
+            return redirect()->route('password.request');
+        }
+        return view('auth.reset-password', ['username' => session('reset_username')]);
     }
 
     public function resetPassword(Request $request)
     {
-        if (empty($request->email) || empty($request->password) || empty($request->password_confirmation) || empty($request->token)) {
-            return back()->withErrors(['email' => 'Semua field wajib diisi.'])->withInput();
+        $username = session('reset_username');
+        if (!$username) {
+            return redirect()->route('password.request');
+        }
+        if (empty($request->password) || empty($request->password_confirmation)) {
+            return back()->withErrors(['password' => 'Semua field wajib diisi.'])->withInput();
         }
         if (strlen($request->password) < 6) {
             return back()->withErrors(['password' => 'Password minimal 6 karakter.'])->withInput();
@@ -124,20 +127,19 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'Konfirmasi password tidak cocok.'])->withInput();
         }
 
-        $status = Password::broker()->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => $password,
-                ])->save();
-            }
-        );
-
-        if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('success', 'Password berhasil direset. Silakan masuk.');
+        $user = User::where('username', $username)->first();
+        if (!$user) {
+            session()->forget('reset_username');
+            return redirect()->route('password.request')->withErrors(['username' => 'Username tidak ditemukan.']);
         }
 
-        return back()->withErrors(['email' => 'Token reset tidak valid atau sudah kedaluwarsa.'])->withInput();
+        $user->forceFill([
+            'password' => $request->password,
+        ])->save();
+
+        session()->forget('reset_username');
+
+        return redirect()->route('login')->with('success', 'Password berhasil direset. Silakan masuk.');
     }
 
     public function logout(Request $request)

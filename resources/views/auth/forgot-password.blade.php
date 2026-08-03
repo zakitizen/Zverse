@@ -33,16 +33,16 @@
             </div>
             @endif
 
-            <form action="{{ route('password.email') }}" method="POST" class="space-y-5">
+            <form action="{{ route('password.verify') }}" method="POST" class="space-y-5">
                 @csrf
                 <div>
-                    <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Alamat Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required
+                    <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Username</label>
+                    <input type="text" name="username" value="{{ old('username') }}" required
                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all"
-                           placeholder="Masukkan email terdaftar">
+                           placeholder="Masukkan username terdaftar">
                 </div>
                 <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-sm shadow-sky-500/25 hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                    Kirim Link Reset <i data-lucide="mail" class="w-4 h-4"></i>
+                    Lanjutkan <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </form>
 
