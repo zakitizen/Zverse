@@ -238,6 +238,7 @@
     const imageInput = document.getElementById('editor-image-upload');
     const uploadUrl = "{{ $imageUploadRoute }}";
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || document.querySelector('input[name="_token"]')?.value;
+    const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5MB — batas validasi aplikasi
     const previewEl = document.getElementById('preview-content');
     const panelEdit = document.getElementById('panel-edit');
     const panelPreview = document.getElementById('panel-preview');
@@ -405,6 +406,12 @@
 
         console.log('📤 Uploading file:', file.name, file.size, 'bytes');
 
+        if (file.size > MAX_UPLOAD_BYTES) {
+            alert('File terlalu besar. Ukuran maksimal ' + (MAX_UPLOAD_BYTES / (1024 * 1024)) + 'MB.');
+            this.value = '';
+            return;
+        }
+
         const formData = new FormData();
         formData.append('image', file);
 
@@ -430,11 +437,13 @@
                 if (contentType.includes('application/json')) {
                     data = await response.json();
                 } else {
-                    data = { message: response.status === 419
-                        ? 'Sesi berakhir. Silakan muat ulang halaman lalu coba lagi.'
-                        : response.status === 422
-                            ? 'Gambar gagal divalidasi. Cek tipe/ukuran file.'
-                            : 'Gagal mengunggah gambar. (HTTP ' + response.status + ')' };
+                    data = { message: response.status === 413
+                        ? 'File terlalu besar. Server membatasi ukuran upload (maksimal 1MB).'
+                        : response.status === 419
+                            ? 'Sesi berakhir. Silakan muat ulang halaman lalu coba lagi.'
+                            : response.status === 422
+                                ? 'Gambar gagal divalidasi. Cek tipe/ukuran file.'
+                                : 'Gagal mengunggah gambar. (HTTP ' + response.status + ')' };
                 }
                 console.error('❌ Upload failed:', data);
                 throw new Error(data.message || 'Gagal mengunggah gambar.');
