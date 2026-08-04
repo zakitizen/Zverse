@@ -411,15 +411,37 @@
         try {
             const response = await fetch(uploadUrl, {
                 method: 'POST',
-                headers: { 'X-CSRF-TOKEN': csrfToken },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
                 body: formData,
             });
 
-            const data = await response.json();
-            
+            let data;
+            const contentType = response.headers.get('content-type') || '';
+
             if (!response.ok) {
+                if (contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    data = { message: response.status === 419
+                        ? 'Sesi berakhir. Silakan muat ulang halaman lalu coba lagi.'
+                        : response.status === 422
+                            ? 'Gambar gagal divalidasi. Cek tipe/ukuran file.'
+                            : 'Gagal mengunggah gambar. (HTTP ' + response.status + ')' };
+                }
                 console.error('❌ Upload failed:', data);
                 throw new Error(data.message || 'Gagal mengunggah gambar.');
+            }
+
+            data = contentType.includes('application/json')
+                ? await response.json()
+                : { url: await response.text() };
+
+            if (!data.url) {
+                throw new Error('Respon server tidak mengandung URL gambar.');
             }
 
             console.log('✅ Upload success:', data.url);
