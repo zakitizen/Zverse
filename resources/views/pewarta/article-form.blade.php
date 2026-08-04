@@ -419,6 +419,10 @@
                 body: formData,
             });
 
+            if (response.redirected) {
+                throw new Error('Sesi berakhir. Silakan muat ulang halaman lalu login kembali.');
+            }
+
             let data;
             const contentType = response.headers.get('content-type') || '';
 
@@ -436,11 +440,13 @@
                 throw new Error(data.message || 'Gagal mengunggah gambar.');
             }
 
-            data = contentType.includes('application/json')
-                ? await response.json()
-                : { url: await response.text() };
+            if (!contentType.includes('application/json')) {
+                throw new Error('Respon server tidak valid. Silakan muat ulang halaman.');
+            }
 
-            if (!data.url) {
+            data = await response.json();
+
+            if (typeof data.url !== 'string' || !/^https?:\/\/|\/storage\//.test(data.url)) {
                 throw new Error('Respon server tidak mengandung URL gambar.');
             }
 
