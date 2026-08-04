@@ -23,12 +23,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Paksa semua URL memakai https saat berjalan di production (mis. Railway).
-        if (config('app.env') === 'production') {
+        $this->forceHttps();
+        $this->ensurePublicStorageLink();
+    }
+
+    /**
+     * Paksa semua URL memakai https bila request aslinya lewat https.
+     *
+     * Di belakang reverse proxy / CDN (mis. Cloudflare, Railway), server asal
+     * menerima koneksi http biasa sehingga Laravel menganggap request http dan
+     * menghasilkan URL `http://...`. Akibatnya `fetch()` dari halaman https ke
+     * URL http di-block browser sebagai mixed content ("Failed to fetch").
+     *
+     * Deteksi dilakukan lewat skema request langsung ATAU header
+     * `X-Forwarded-Proto` yang di-set proxy. Tidak lagi bergantung pada
+     * `APP_ENV` agar konsisten di semua lingkungan deployment.
+     */
+    protected function forceHttps(): void
+    {
+        $request       = $this->app['request'];
+        $forwardedProto = strtolower((string) $request->header('X-Forwarded-Proto', ''));
+
+        if (config('app.env') === 'production' || $request->isSecure() || $forwardedProto === 'https') {
             URL::forceScheme('https');
         }
-
-        $this->ensurePublicStorageLink();
     }
 
     /**
