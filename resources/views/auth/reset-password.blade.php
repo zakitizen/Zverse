@@ -30,7 +30,7 @@
                 @csrf
                 <div class="bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-700 dark:text-sky-400 text-sm px-4 py-3 rounded-xl flex items-center gap-2">
                     <i data-lucide="user-check" class="w-4 h-4 shrink-0"></i>
-                    <span class="font-medium">Reset password untuk <b>{{ $username }}</b></span>
+                    <span class="font-medium">Reset password untuk <b>{{ $email }}</b></span>
                 </div>
                 <div>
                     <label class="block text-slate-700 dark:text-slate-300 text-sm font-bold mb-2">Password Baru</label>

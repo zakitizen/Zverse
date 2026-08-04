@@ -84,19 +84,19 @@ class AuthController extends Controller
         return view('auth.forgot-password');
     }
 
-    public function verifyUsername(Request $request)
+    public function verifyEmail(Request $request)
     {
-        if (empty($request->username)) {
-            return back()->withErrors(['username' => 'Masukkan username kamu.'])->withInput();
+        if (empty($request->email)) {
+            return back()->withErrors(['email' => 'Masukkan email kamu.'])->withInput();
         }
 
-        $user = User::where('username', strtolower(trim($request->username)))->first();
+        $user = User::where('email', strtolower(trim($request->email)))->first();
 
         if (!$user) {
-            return back()->withErrors(['username' => 'Username tidak ditemukan.'])->withInput();
+            return back()->withErrors(['email' => 'Email tidak ditemukan.'])->withInput();
         }
 
-        session(['reset_username' => $user->username]);
+        session(['reset_email' => $user->email]);
         return redirect()->route('password.reset');
     }
 
@@ -105,16 +105,16 @@ class AuthController extends Controller
         if (Auth::check()) {
             return $this->redirectByRole(Auth::user()->role);
         }
-        if (!session('reset_username')) {
+        if (!session('reset_email')) {
             return redirect()->route('password.request');
         }
-        return view('auth.reset-password', ['username' => session('reset_username')]);
+        return view('auth.reset-password', ['email' => session('reset_email')]);
     }
 
     public function resetPassword(Request $request)
     {
-        $username = session('reset_username');
-        if (!$username) {
+        $email = session('reset_email');
+        if (!$email) {
             return redirect()->route('password.request');
         }
         if (empty($request->password) || empty($request->password_confirmation)) {
@@ -127,17 +127,17 @@ class AuthController extends Controller
             return back()->withErrors(['password' => 'Konfirmasi password tidak cocok.'])->withInput();
         }
 
-        $user = User::where('username', $username)->first();
+        $user = User::where('email', $email)->first();
         if (!$user) {
-            session()->forget('reset_username');
-            return redirect()->route('password.request')->withErrors(['username' => 'Username tidak ditemukan.']);
+            session()->forget('reset_email');
+            return redirect()->route('password.request')->withErrors(['email' => 'Email tidak ditemukan.']);
         }
 
         $user->forceFill([
             'password' => $request->password,
         ])->save();
 
-        session()->forget('reset_username');
+        session()->forget('reset_email');
 
         return redirect()->route('login')->with('success', 'Password berhasil direset. Silakan masuk.');
     }
