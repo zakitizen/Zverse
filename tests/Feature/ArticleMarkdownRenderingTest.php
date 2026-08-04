@@ -93,7 +93,7 @@ class ArticleMarkdownRenderingTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->post(route('article.comment', $article->id), ['body' => 'Komentar awal']);
+            ->post(route('article.comments.store', $article->id), ['body' => 'Komentar awal']);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('comments', [
@@ -107,7 +107,7 @@ class ArticleMarkdownRenderingTest extends TestCase
         $comment = $article->comments()->first();
 
         $replyResponse = $this->actingAs($user)
-            ->post(route('article.comment', $article->id), [
+            ->post(route('article.comments.store', $article->id), [
                 'body' => 'Balasan komentar',
                 'parent_id' => $comment->id,
             ]);

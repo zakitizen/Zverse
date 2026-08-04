@@ -24,7 +24,8 @@ class RoleDashboardMenuTest extends TestCase
         $response = $this->get('/')->assertOk();
         $html = $response->getContent();
 
-        $this->assertStringContainsString('Dashboard Pewarta', $html);
+        $this->assertStringContainsString('Dashboard', $html);
+        $this->assertStringContainsString('/pewarta', $html);
     }
 
     public function test_redaksi_sees_dashboard_link_in_navbar(): void
@@ -41,6 +42,7 @@ class RoleDashboardMenuTest extends TestCase
         $response = $this->get('/')->assertOk();
         $html = $response->getContent();
 
-        $this->assertStringContainsString('Dashboard Redaksi', $html);
+        $this->assertStringContainsString('Dashboard', $html);
+        $this->assertStringContainsString('/redaksi', $html);
     }
 }

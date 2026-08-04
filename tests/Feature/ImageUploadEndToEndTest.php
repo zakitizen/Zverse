@@ -81,13 +81,24 @@ class ImageUploadEndToEndTest extends TestCase
         $this->assertEquals('approved', $article->status);
         echo "\n✅ ARTICLE APPROVED";
 
-        // 7. DISPLAY ARTICLE AND VERIFY MARKDOWN RENDERS
+        // 7. PUBLISH ARTICLE (Redaksi publish agar tampil di publik)
+        $publishResponse = $this->actingAs($redaksi)
+            ->withSession(['redaksi_user_id' => $redaksi->id])
+            ->post(route('redaksi.articles.publish', $article->id));
+
+        $publishResponse->assertRedirect();
+
+        $article->refresh();
+        $this->assertEquals('published', $article->status);
+        echo "\n✅ ARTICLE PUBLISHED";
+
+        // 8. DISPLAY ARTICLE AND VERIFY MARKDOWN RENDERS
         $displayResponse = $this->get(route('article.show', $article->id));
 
         $displayResponse->assertOk();
         echo "\n✅ ARTICLE PAGE LOADS SUCCESSFULLY";
 
-        // 8. VERIFY HTML CONTAINS RENDERED MARKDOWN ELEMENTS
+        // 9. VERIFY HTML CONTAINS RENDERED MARKDOWN ELEMENTS
         $html = $displayResponse->content();
 
         // Check bold rendering

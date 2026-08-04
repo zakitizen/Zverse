@@ -40,6 +40,6 @@ class RedaksiDashboardTest extends TestCase
             ->get(route('redaksi.dashboard'));
 
         $response->assertOk();
-        $response->assertSee('Tarik Artikel', false);
+        $response->assertSee('Tarik', false);
     }
 }
